@@ -3,9 +3,9 @@ public abstract class Entity : IEquatable<Entity>
 {
     protected UniqueIdentity Id { get; private init; }
 
-    protected Entity(UniqueIdentity id)
+    protected Entity(UniqueIdentity? id)
     {
-        Id = id;
+        Id = id ?? new UniqueIdentity(null);
     }
 
     public UniqueIdentity GetId()
