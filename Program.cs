@@ -1,22 +1,51 @@
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
 
-// Add services to the container.
+var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+string Env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+
+//configure logger
+const string appJsonFIle = "appsettings.json";
+string appJsonFileEnv = $"appsettings.{Env}.json";
+
+var configuration = new ConfigurationBuilder()
+     .SetBasePath(Directory.GetCurrentDirectory())
+     .AddJsonFile(appJsonFIle, false, true)
+     .AddJsonFile(appJsonFileEnv, true)
+     .Build();
+
+Log.Logger = new LoggerConfiguration()
+    .ReadFrom.Configuration(configuration)
+    .CreateLogger();
+
+builder.Host.UseSerilog(Log.Logger);
+
+
+
+
 var app = builder.Build();
 
+bool IsDev = app.Environment.IsDevelopment();
+
+//logger http middleware
+app.UseSerilogRequestLogging();
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (IsDev)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
+Log.Information("Starting web host");
 
 app.UseAuthorization();
 
