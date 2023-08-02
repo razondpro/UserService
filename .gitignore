@@ -16,8 +16,8 @@
 *.log
 Thumbs.db
 desktop.ini
+Logs/
 
-appsettings.json
 web.config
 connectionStrings.config
 

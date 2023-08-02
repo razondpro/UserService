@@ -1,3 +1,4 @@
+using Serilog;
 using UserService.Modules.User.Domain.Events;
 using UserService.Modules.User.Domain.ValueObjects;
 using UserService.Shared.Domain;
@@ -28,6 +29,7 @@ public class User : AggregateRoot
         if (id is null)
         {
             user.AddDomainEvent(new UserCreated(user));
+            Log.Information("New User created: {@user}", user);
         }
 
         return user;
