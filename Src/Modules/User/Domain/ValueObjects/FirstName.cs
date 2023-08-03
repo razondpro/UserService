@@ -6,9 +6,9 @@ namespace UserService.Modules.User.Domain.ValueObjects;
 
 public sealed class FirstName : ValueObject
 {
-    private static readonly int MaxLength = 50;
-    private static readonly int MinLength = 2;
-    private static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
+    public static readonly int MaxLength = 50;
+    public static readonly int MinLength = 2;
+    public static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
     public string Value { get; init; }
 
     private FirstName(string firstName)
@@ -24,7 +24,7 @@ public sealed class FirstName : ValueObject
             throw new InvalidNameException("Name is required");
         }
 
-        if (firstName.Length <= MinLength || firstName.Length > MaxLength)
+        if (firstName.Length < MinLength || firstName.Length > MaxLength)
         {
             throw new InvalidNameException($"Name must be between {MinLength} and {MaxLength} characters long");
         }

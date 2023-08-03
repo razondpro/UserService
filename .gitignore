@@ -10,7 +10,7 @@
 *.sln.cache
 *.vscode
 .idea/
-
+*.vs
 
 *.tmp
 *.log

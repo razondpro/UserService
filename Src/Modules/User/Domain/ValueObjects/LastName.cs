@@ -6,9 +6,9 @@ namespace UserService.Modules.User.Domain.ValueObjects;
 
 public sealed class LastName : ValueObject
 {
-    private static readonly int MaxLength = 50;
-    private static readonly int MinLength = 2;
-    private static readonly Regex LastNameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
+    public static readonly int MaxLength = 50;
+    public static readonly int MinLength = 2;
+    public static readonly Regex LastNameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
     public string Value { get; }
 
     private LastName(string lastName)
