@@ -8,11 +8,11 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-string Env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
+string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
 
 //configure logger
 const string appJsonFIle = "appsettings.json";
-string appJsonFileEnv = $"appsettings.{Env}.json";
+string appJsonFileEnv = $"appsettings.{env}.json";
 
 var configuration = new ConfigurationBuilder()
      .SetBasePath(Directory.GetCurrentDirectory())
@@ -31,13 +31,13 @@ builder.Host.UseSerilog(Log.Logger);
 
 var app = builder.Build();
 
-bool IsDev = app.Environment.IsDevelopment();
+bool isDev = app.Environment.IsDevelopment();
 
 //logger http middleware
 app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
-if (IsDev)
+if (isDev)
 {
     app.UseSwagger();
     app.UseSwaggerUI();
