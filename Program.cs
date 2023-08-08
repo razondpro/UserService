@@ -5,29 +5,15 @@ using UserService.Shared.Infrastructure.Http;
 using UserService.Shared.Infrastructure.Http.Routes;
 using UserService.Shared.Infrastructure.Http.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using UserService.Config.Logs;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
-
 //configure logger
-const string appJsonFIle = "appsettings.json";
-string appJsonFileEnv = $"appsettings.{env}.json";
-
-var configuration = new ConfigurationBuilder()
-     .SetBasePath(Directory.GetCurrentDirectory())
-     .AddJsonFile(appJsonFIle, false, true)
-     .AddJsonFile(appJsonFileEnv, true)
-     .Build();
-
-Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(configuration)
-    .CreateLogger();
-
-builder.Host.UseSerilog(Log.Logger);
+builder.Host.UseSerilog(SerilogConfig.Configure());
 
 //configure database
 builder.Services.AddDatabase();
