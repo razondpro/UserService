@@ -1,8 +1,8 @@
-using Serilog;
-using Shared.Http.Api;
-
-namespace Shared.Http
+namespace UserService.Shared.Infrastructure.Http
 {
+    using Serilog;
+    using Shared.Infrastructure.Http.Api;
+
     public class Server
     {
 

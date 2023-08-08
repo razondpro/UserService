@@ -1,8 +1,10 @@
-namespace UserService.Shared.Domain;
-public class UniqueIdentity : Identifier<Guid>
+namespace UserService.Shared.Domain
 {
-    public UniqueIdentity(Guid? value) : base(value ?? new Guid())
+    public class UniqueIdentity : Identifier<Guid>
     {
+        public UniqueIdentity(Guid? value) : base(value ?? new Guid())
+        {
 
+        }
     }
 }

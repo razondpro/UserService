@@ -1,6 +1,6 @@
 # UserService Microservice
 
-UserService is a microservice built using C# .NET Minimal API, following the Clean Architecture and Domain-Driven Design (DDD) principles. It integrates Kafka for event handling and MongoDB as the database.
+UserService is a microservice built using C# .NET Minimal API, following the Clean Architecture and Domain-Driven Design (DDD) principles. It integrates Kafka for event handling and Postgressql as the database.
 
 ## Table of Contents
 

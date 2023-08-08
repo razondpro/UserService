@@ -1,26 +1,28 @@
-using UserService.Shared.Domain;
-using UserService.Shared.Domain.Events;
-
-namespace UserService.Modules.User.Domain.Events;
-
-public sealed class UserCreated : IDomainEvent
+namespace UserService.Modules.User.Domain.Events
 {
-    public DateTime Timestamp { get; private set; }
+    using Shared.Domain;
+    using Shared.Domain.Events;
+    using Modules.User.Domain.Entities;
 
-    public UniqueIdentity AggregateId { get; private set; }
-
-    public object Data { get; private set; }
-
-    public UserCreated(Entities.User user)
+    public sealed class UserCreated : IDomainEvent
     {
-        Timestamp = DateTime.Now;
-        AggregateId = user.GetId();
-        Data = new
+        public DateTime Timestamp { get; private set; }
+
+        public UniqueIdentity AggregateId { get; private set; }
+
+        public object Data { get; private set; }
+
+        public UserCreated(User user)
         {
-            user.Email,
-            user.FirstName,
-            user.LastName,
-            user.UserName
-        };
+            Timestamp = DateTime.Now;
+            AggregateId = user.Id;
+            Data = new
+            {
+                user.Email,
+                user.FirstName,
+                user.LastName,
+                user.UserName
+            };
+        }
     }
 }

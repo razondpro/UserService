@@ -1,9 +1,11 @@
-namespace UserService.Modules.User.Domain.Exceptions;
-
-public class InvalidEmailException : Exception
+namespace UserService.Modules.User.Domain.Exceptions
 {
-    public static readonly string DefaultMessage = "Email is invalid";
-    public InvalidEmailException(string? message) : base(message ?? DefaultMessage)
+
+    public class InvalidEmailException : Exception
     {
+        public static readonly string DefaultMessage = "Email is invalid";
+        public InvalidEmailException(string? message) : base(message ?? DefaultMessage)
+        {
+        }
     }
 }

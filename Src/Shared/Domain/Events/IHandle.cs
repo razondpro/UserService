@@ -1,5 +1,7 @@
-namespace UserService.Shared.Domain.Events;
-public interface IHandle
+namespace UserService.Shared.Domain.Events
 {
-    void SetupSubscriptions();
+    public interface IHandle
+    {
+        void SetupSubscriptions();
+    }
 }

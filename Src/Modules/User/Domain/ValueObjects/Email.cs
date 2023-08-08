@@ -1,42 +1,43 @@
-using System.Text.RegularExpressions;
-using UserService.Modules.User.Domain.Exceptions;
-using UserService.Shared.Domain;
-
-namespace UserService.Modules.User.Domain.ValueObjects;
-
-public sealed class Email : ValueObject
+namespace UserService.Modules.User.Domain.ValueObjects
 {
-    public static readonly Regex EmailRegex = new(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.Compiled);
-    public static readonly int Max_Length = 100;
-    public string Value { get; }
+    using System.Text.RegularExpressions;
+    using Modules.User.Domain.Exceptions;
+    using Shared.Domain;
 
-    private Email(string email)
+    public sealed class Email : ValueObject
     {
-        Value = email;
-    }
+        public static readonly Regex EmailRegex = new(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.Compiled);
+        public static readonly int MaxLength = 100;
+        public string Value { get; }
 
-    public static Email Create(string value)
-    {
-        if (string.IsNullOrWhiteSpace(value))
+        private Email(string email)
         {
-            throw new InvalidEmailException("Email is required");
+            Value = email;
         }
 
-        if (value.Length > Max_Length)
+        public static Email Create(string value)
         {
-            throw new InvalidEmailException($"Email must be less than {Max_Length} characters long");
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new InvalidEmailException("Email is required");
+            }
+
+            if (value.Length > MaxLength)
+            {
+                throw new InvalidEmailException($"Email must be less than {MaxLength} characters long");
+            }
+
+            if (!EmailRegex.IsMatch(value))
+            {
+                throw new InvalidEmailException("Email is invalid");
+            }
+
+            return new Email(value);
         }
 
-        if (!EmailRegex.IsMatch(value))
+        protected override IEnumerable<object> GetAtomicValues()
         {
-            throw new InvalidEmailException("Email is invalid");
+            yield return Value;
         }
-
-        return new Email(value);
-    }
-
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
     }
 }

@@ -1,7 +1,6 @@
 
-namespace Modules.User.Infrastructure.Http.Routes
+namespace UserService.Modules.User.Infrastructure.Http.Routes
 {
-
     public static class UserRouteExtensions
     {
 

@@ -1,40 +1,43 @@
-namespace UserService.Shared.Domain;
-public abstract class Identifier<T>
+namespace UserService.Shared.Domain
 {
-    private readonly T value;
-
-    protected Identifier(T value)
+    public abstract class Identifier<T>
     {
-        this.value = value;
-    }
+        public T Value { get; private init; }
 
-    public bool Equals(Identifier<T> id)
-    {
-        if (id is null)
+        protected Identifier(T value)
         {
+            Value = value;
+        }
+
+        public bool Equals(Identifier<T> id)
+        {
+            if (id is null)
+            {
+                return false;
+            }
+
+            if (GetType() != id.GetType())
+            {
+                return false;
+            }
+
+            return Equals(id.Value, Value);
+        }
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is Identifier<T> otherId)
+            {
+                return Equals(otherId);
+            }
+
             return false;
         }
 
-        if (GetType() != id.GetType())
+        public override int GetHashCode()
         {
-            return false;
+            return Value?.GetHashCode() ?? 0;
         }
-
-        return Equals(id.value, value);
     }
 
-    public override bool Equals(object? obj)
-    {
-        if (obj is Identifier<T> otherId)
-        {
-            return Equals(otherId);
-        }
-
-        return false;
-    }
-
-    public override int GetHashCode()
-    {
-        return value?.GetHashCode() ?? 0;
-    }
 }

@@ -1,8 +1,9 @@
+using UserService.Config.Database;
 using Microsoft.Extensions.Options;
 using Serilog;
-using Shared.Http;
-using Shared.Http.Routes;
-using Shared.Http.Swagger;
+using UserService.Shared.Infrastructure.Http;
+using UserService.Shared.Infrastructure.Http.Routes;
+using UserService.Shared.Infrastructure.Http.Swagger;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,6 +29,9 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog(Log.Logger);
 
+//configure database
+builder.Services.AddDatabase();
+
 // configure api versioning
 VersioningExtensions.ConfigureVersioning(builder);
 
@@ -36,6 +40,6 @@ builder.Services.AddTransient<IConfigureOptions<SwaggerGenOptions>, ConfigureSwa
 builder.Services.AddSwaggerGen(options => options.OperationFilter<SwaggerDefaultValues>());
 
 
-// configure server
+// configure http server and run
 Server server = new(builder);
 server.Run();

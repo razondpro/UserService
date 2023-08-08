@@ -1,8 +1,7 @@
 
-using Asp.Versioning;
-
-namespace Shared.Http.Routes
+namespace UserService.Shared.Infrastructure.Http.Routes
 {
+    using Asp.Versioning;
 
     public static class VersioningExtensions
     {
