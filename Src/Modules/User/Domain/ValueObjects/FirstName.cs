@@ -1,43 +1,44 @@
-using System.Text.RegularExpressions;
-using UserService.Modules.User.Domain.Exceptions;
-using UserService.Shared.Domain;
-
-namespace UserService.Modules.User.Domain.ValueObjects;
-
-public sealed class FirstName : ValueObject
+namespace UserService.Modules.User.Domain.ValueObjects
 {
-    public static readonly int MaxLength = 50;
-    public static readonly int MinLength = 2;
-    public static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
-    public string Value { get; init; }
+    using System.Text.RegularExpressions;
+    using Modules.User.Domain.Exceptions;
+    using Shared.Domain;
 
-    private FirstName(string firstName)
+    public sealed class FirstName : ValueObject
     {
-        Value = firstName;
-    }
+        public static readonly int MaxLength = 50;
+        public static readonly int MinLength = 2;
+        public static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
+        public string Value { get; init; }
 
-    public static FirstName Create(string firstName)
-    {
-
-        if (string.IsNullOrWhiteSpace(firstName))
+        private FirstName(string firstName)
         {
-            throw new InvalidNameException("Name is required");
+            Value = firstName;
         }
 
-        if (firstName.Length < MinLength || firstName.Length > MaxLength)
+        public static FirstName Create(string firstName)
         {
-            throw new InvalidNameException($"Name must be between {MinLength} and {MaxLength} characters long");
-        }
 
-        if (!NameRegex.IsMatch(firstName))
+            if (string.IsNullOrWhiteSpace(firstName))
+            {
+                throw new InvalidNameException("Name is required");
+            }
+
+            if (firstName.Length < MinLength || firstName.Length > MaxLength)
+            {
+                throw new InvalidNameException($"Name must be between {MinLength} and {MaxLength} characters long");
+            }
+
+            if (!NameRegex.IsMatch(firstName))
+            {
+                throw new InvalidNameException("Name must contain only letters");
+            }
+
+            return new(firstName);
+        }
+        protected override IEnumerable<object> GetAtomicValues()
         {
-            throw new InvalidNameException("Name must contain only letters");
+            yield return Value;
         }
-
-        return new(firstName);
-    }
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
     }
 }

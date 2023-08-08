@@ -1,38 +1,39 @@
-using Serilog;
-using UserService.Modules.User.Domain.Events;
-using UserService.Modules.User.Domain.ValueObjects;
-using UserService.Shared.Domain;
-
-namespace UserService.Modules.User.Domain.Entities;
-
-public class User : AggregateRoot
+namespace UserService.Modules.User.Domain.Entities
 {
+    using Serilog;
+    using Modules.User.Domain.Events;
+    using Modules.User.Domain.ValueObjects;
+    using Shared.Domain;
 
-    public Email Email { get; private set; }
-    public FirstName FirstName { get; private set; }
-    public LastName LastName { get; private set; }
-    public UserName UserName { get; private set; }
-
-    private User(UniqueIdentity? id, Email email, FirstName firstName, LastName lastName, UserName userName) : base(id)
-    {
-        Email = email;
-        FirstName = firstName;
-        LastName = lastName;
-        UserName = userName;
-    }
-
-    public static User Create(UniqueIdentity? id, Email email, FirstName firstName, LastName lastName, UserName userName)
+    public class User : AggregateRoot
     {
 
-        User user = new(id, email, firstName, lastName, userName);
+        public Email Email { get; private set; }
+        public FirstName FirstName { get; private set; }
+        public LastName LastName { get; private set; }
+        public UserName UserName { get; private set; }
 
-        if (id is null)
+        private User(UniqueIdentity? id, Email email, FirstName firstName, LastName lastName, UserName userName) : base(id)
         {
-            user.AddDomainEvent(new UserCreated(user));
-            Log.Information("New User created: {@user}", user);
+            Email = email;
+            FirstName = firstName;
+            LastName = lastName;
+            UserName = userName;
         }
 
-        return user;
-    }
+        public static User Create(UniqueIdentity? id, Email email, FirstName firstName, LastName lastName, UserName userName)
+        {
 
+            User user = new(id, email, firstName, lastName, userName);
+
+            if (id is null)
+            {
+                user.AddDomainEvent(new UserCreated(user));
+                Log.Information("New User created: {@user}", user);
+            }
+
+            return user;
+        }
+
+    }
 }

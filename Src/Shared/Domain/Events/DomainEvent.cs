@@ -1,80 +1,81 @@
-namespace UserService.Shared.Domain.Events;
-
-public class DomainEvent
+namespace UserService.Shared.Domain.Events
 {
-    private static readonly Dictionary<string, List<Action<IDomainEvent>>> handlersMap = new();
-    private static readonly List<AggregateRoot> markedAggregates = new();
-
-    private static AggregateRoot? FindMarkedAggregateByID(UniqueIdentity id)
+    public class DomainEvent
     {
-        return markedAggregates.Find(aggregate => aggregate.GetId().Equals(id));
-    }
+        private static readonly Dictionary<string, List<Action<IDomainEvent>>> handlersMap = new();
+        private static readonly List<AggregateRoot> markedAggregates = new();
 
-    public static void MarkAggregateForDispatch(AggregateRoot aggregate)
-    {
-        if (FindMarkedAggregateByID(aggregate.GetId()) == null)
+        private static AggregateRoot? FindMarkedAggregateByID(UniqueIdentity id)
         {
-            markedAggregates.Add(aggregate);
+            return markedAggregates.Find(aggregate => aggregate.Id.Equals(id));
         }
-    }
 
-    private static void Dispatch(IDomainEvent @event)
-    {
-        string eventClassName = @event.GetType().Name;
-
-        if (handlersMap.ContainsKey(eventClassName))
+        public static void MarkAggregateForDispatch(AggregateRoot aggregate)
         {
-            var handlers = handlersMap[eventClassName];
-            foreach (var handler in handlers)
+            if (FindMarkedAggregateByID(aggregate.Id) == null)
             {
-                handler(@event);
+                markedAggregates.Add(aggregate);
             }
         }
-    }
 
-    private static void DispatchAggregateEvents(AggregateRoot aggregate)
-    {
-        foreach (var @event in aggregate.GetDomainEvents())
+        private static void Dispatch(IDomainEvent @event)
         {
-            Dispatch(@event);
-        }
-    }
+            string eventClassName = @event.GetType().Name;
 
-    public static void DispatchEventsForAggregate(UniqueIdentity id)
-    {
-        var aggregate = FindMarkedAggregateByID(id);
-        if (aggregate != null)
-        {
-            DispatchAggregateEvents(aggregate);
-            aggregate.ClearEvents();
-            RemoveAggregateFromMarkedDispatchList(aggregate);
-        }
-    }
-
-    private static void RemoveAggregateFromMarkedDispatchList(AggregateRoot aggregate)
-    {
-        markedAggregates.RemoveAll(a => a.Equals(aggregate));
-    }
-
-    public static void Register<T>(Action<T> callback) where T : IDomainEvent
-    {
-        string eventClassName = typeof(T).Name;
-
-        if (!handlersMap.ContainsKey(eventClassName))
-        {
-            handlersMap[eventClassName] = new List<Action<IDomainEvent>>();
+            if (handlersMap.ContainsKey(eventClassName))
+            {
+                var handlers = handlersMap[eventClassName];
+                foreach (var handler in handlers)
+                {
+                    handler(@event);
+                }
+            }
         }
 
-        handlersMap[eventClassName].Add(@event => callback((T)@event));
-    }
+        private static void DispatchAggregateEvents(AggregateRoot aggregate)
+        {
+            foreach (var @event in aggregate.GetDomainEvents())
+            {
+                Dispatch(@event);
+            }
+        }
 
-    public static void ClearHandlers()
-    {
-        handlersMap.Clear();
-    }
+        public static void DispatchEventsForAggregate(UniqueIdentity id)
+        {
+            var aggregate = FindMarkedAggregateByID(id);
+            if (aggregate != null)
+            {
+                DispatchAggregateEvents(aggregate);
+                aggregate.ClearEvents();
+                RemoveAggregateFromMarkedDispatchList(aggregate);
+            }
+        }
 
-    public static void ClearMarkedAggregates()
-    {
-        markedAggregates.Clear();
+        private static void RemoveAggregateFromMarkedDispatchList(AggregateRoot aggregate)
+        {
+            markedAggregates.RemoveAll(a => a.Equals(aggregate));
+        }
+
+        public static void Register<T>(Action<T> callback) where T : IDomainEvent
+        {
+            string eventClassName = typeof(T).Name;
+
+            if (!handlersMap.ContainsKey(eventClassName))
+            {
+                handlersMap[eventClassName] = new List<Action<IDomainEvent>>();
+            }
+
+            handlersMap[eventClassName].Add(@event => callback((T)@event));
+        }
+
+        public static void ClearHandlers()
+        {
+            handlersMap.Clear();
+        }
+
+        public static void ClearMarkedAggregates()
+        {
+            markedAggregates.Clear();
+        }
     }
 }

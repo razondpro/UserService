@@ -1,76 +1,73 @@
-namespace UserService.Shared.Domain;
-public abstract class Entity : IEquatable<Entity>
+namespace UserService.Shared.Domain
 {
-    protected UniqueIdentity Id { get; private init; }
-
-    protected Entity(UniqueIdentity? id)
+    public abstract class Entity : IEquatable<Entity>
     {
-        Id = id ?? new UniqueIdentity(null);
-    }
+        public UniqueIdentity Id { get; private init; }
 
-    public UniqueIdentity GetId()
-    {
-        return Id;
-    }
-
-    public override bool Equals(object? obj)
-    {
-        if (obj is null)
+        protected Entity(UniqueIdentity? id)
         {
-            return false;
+            Id = id ?? new UniqueIdentity(null);
         }
 
-        if (obj.GetType() != GetType())
+        public override bool Equals(object? obj)
         {
-            return false;
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            if (obj is not Entity entity)
+            {
+                return false;
+            }
+
+            return Id == entity.Id;
         }
 
-        if (obj is not Entity entity)
+        public bool Equals(Entity? other)
         {
-            return false;
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (GetType() != other.GetType())
+            {
+                return false;
+            }
+
+            return Id == other.Id;
         }
 
-        return Id == entity.GetId();
+        public static bool operator ==(Entity? left, Entity? right)
+        {
+            if (left is null && right is null)
+            {
+                return true;
+            }
+
+            if (left is null || right is null)
+            {
+                return false;
+            }
+
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Entity? left, Entity? right)
+        {
+            return !(left == right);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
+
     }
-
-    public bool Equals(Entity? other)
-    {
-        if (other is null)
-        {
-            return false;
-        }
-
-        if (GetType() != other.GetType())
-        {
-            return false;
-        }
-
-        return Id == other.GetId();
-    }
-
-    public static bool operator ==(Entity? left, Entity? right)
-    {
-        if (left is null && right is null)
-        {
-            return true;
-        }
-
-        if (left is null || right is null)
-        {
-            return false;
-        }
-
-        return left.Equals(right);
-    }
-
-    public static bool operator !=(Entity? left, Entity? right)
-    {
-        return !(left == right);
-    }
-
-    public override int GetHashCode()
-    {
-        return Id.GetHashCode();
-    }
-
 }

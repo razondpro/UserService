@@ -1,44 +1,44 @@
-using System.Text.RegularExpressions;
-using UserService.Modules.User.Domain.Exceptions;
-using UserService.Shared.Domain;
-
-namespace UserService.Modules.User.Domain.ValueObjects;
-
-public sealed class LastName : ValueObject
+namespace UserService.Modules.User.Domain.ValueObjects
 {
-    public static readonly int MaxLength = 50;
-    public static readonly int MinLength = 2;
-    public static readonly Regex LastNameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
-    public string Value { get; }
-
-    private LastName(string lastName)
+    using System.Text.RegularExpressions;
+    using Modules.User.Domain.Exceptions;
+    using Shared.Domain;
+    public sealed class LastName : ValueObject
     {
-        Value = lastName;
-    }
+        public static readonly int MaxLength = 50;
+        public static readonly int MinLength = 2;
+        public static readonly Regex LastNameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
+        public string Value { get; }
 
-    public static LastName Create(string value)
-    {
-
-        if (string.IsNullOrWhiteSpace(value))
+        private LastName(string lastName)
         {
-            throw new InvalidNameException("LastName is required");
+            Value = lastName;
         }
 
-        if (value.Length <= MinLength || value.Length > MaxLength)
+        public static LastName Create(string value)
         {
-            throw new InvalidNameException($"LastName must be between {MinLength} and {MaxLength} characters long");
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new InvalidNameException("LastName is required");
+            }
+
+            if (value.Length <= MinLength || value.Length > MaxLength)
+            {
+                throw new InvalidNameException($"LastName must be between {MinLength} and {MaxLength} characters long");
+            }
+
+            if (!LastNameRegex.IsMatch(value))
+            {
+                throw new InvalidNameException("LastName must contain only letters");
+            }
+
+            return new LastName(value);
         }
 
-        if (!LastNameRegex.IsMatch(value))
+        protected override IEnumerable<object> GetAtomicValues()
         {
-            throw new InvalidNameException("LastName must contain only letters");
+            yield return Value;
         }
-
-        return new LastName(value);
-    }
-
-    protected override IEnumerable<object> GetAtomicValues()
-    {
-        yield return Value;
     }
 }
