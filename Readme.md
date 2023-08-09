@@ -15,13 +15,13 @@ UserService is a microservice built using C# .NET Minimal API, following the Cle
 
 ## Introduction
 
-UserService is a microservice that handles user-related operations. It is built with C# .NET Minimal API, adopting the Clean Architecture and Domain-Driven Design (DDD) patterns to ensure a modular, maintainable, and scalable codebase. The service also leverages Kafka for event-driven communication and MongoDB for data storage.
+UserService is a microservice that handles user-related operations. It is built with C# .NET Minimal API, adopting the Clean Architecture and Domain-Driven Design (DDD) patterns to ensure a modular, maintainable, and scalable codebase. The service also leverages Kafka for event-driven communication and PSQL for data storage.
 
 ## Features
 
 - Create, update, and manage user profiles
 - Event-driven architecture using Kafka for real-time updates
-- MongoDB integration for data storage and retrieval
+- PSQL integration for data storage and retrieval
 - Clean and modular codebase following DDD principles
 - Efficient and lightweight with C# .NET Minimal API
 
@@ -29,9 +29,9 @@ UserService is a microservice that handles user-related operations. It is built 
 
 To run this microservice, you'll need the following tools and technologies:
 
-- .NET SDK (version XYZ)
+- .NET SDK (version 7.0)
 - Kafka (version XYZ)
-- MongoDB (version XYZ)
+- PSQL (version 15.3)
 
 ## Installation
 
@@ -54,8 +54,8 @@ To run this microservice, you'll need the following tools and technologies:
 1. Configure Kafka:
    Update the Kafka settings in appsettings.json to match your Kafka broker configuration.
 
-2. Configure MongoDB:
-   Update the MongoDB connection string in appsettings.json to point to your MongoDB instance.
+2. Configure PSQL:
+   Update the PSQL connection string in appsettings.json to point to your PSQL instance.
 
 ## Usage
 
