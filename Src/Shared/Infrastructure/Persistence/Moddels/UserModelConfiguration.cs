@@ -6,7 +6,7 @@ namespace UserService.Shared.Infrastructure.Persistence.Configurations
     using Shared.Domain;
     using UserService.Modules.User.Domain.ValueObjects;
 
-    public class UserConfiguration : IEntityTypeConfiguration<User>
+    public class UserModelConfiguration : IEntityTypeConfiguration<User>
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {

@@ -7,7 +7,10 @@ namespace UserService.Shared.Infrastructure.Persistence
     {
         public Database(DbContextOptions<Database> options) : base(options)
         {
-
+        }
+        override protected void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(Database).Assembly);
         }
     }
 }
