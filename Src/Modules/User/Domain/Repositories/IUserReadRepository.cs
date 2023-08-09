@@ -6,9 +6,9 @@ namespace UserService.Modules.User.Domain.Repositories
 
     public interface IUserReadRepository
     {
-        Task<User?> Get(UniqueIdentity id, CancellationToken cancellationToken = default);
-        Task<User?> Get(Email email, CancellationToken cancellationToken = default);
-        Task<User?> Get(UserName userName, CancellationToken cancellationToken = default);
+        Task<User?> Get(UniqueIdentity id);
+        Task<User?> Get(Email email);
+        Task<User?> Get(UserName userName);
         Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken = default);
 
     }

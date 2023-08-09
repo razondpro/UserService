@@ -8,6 +8,8 @@ namespace UserService.Modules.User.Infrastructure.Persistence.Repositories
     using Shared.Infrastructure.Persistence;
     using Modules.User.Domain.ValueObjects;
     using Shared.Domain;
+    using Microsoft.EntityFrameworkCore;
+
     public class UserReadRepository : IUserReadRepository
     {
         private readonly Database DbContext;
@@ -17,24 +19,25 @@ namespace UserService.Modules.User.Infrastructure.Persistence.Repositories
             DbContext = database;
         }
 
-        public Task<User?> Get(UniqueIdentity id, CancellationToken cancellationToken = default)
+        public async Task<User?> Get(UniqueIdentity id)
         {
-            throw new NotImplementedException();
+            return await DbContext.Users.FindAsync(id.Value);
         }
 
-        public Task<User?> Get(Email email, CancellationToken cancellationToken = default)
+        public async Task<User?> Get(Email email)
         {
-            throw new NotImplementedException();
+            return await DbContext.Users.FindAsync(email.Value);
         }
 
-        public Task<User?> Get(UserName userName, CancellationToken cancellationToken = default)
+        public async Task<User?> Get(UserName userName)
         {
-            throw new NotImplementedException();
+            return await DbContext.Users.FindAsync(userName.Value);
+
         }
 
-        public Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken = default)
+        public async Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await DbContext.Users.ToListAsync(cancellationToken);
         }
     }
 }
