@@ -6,7 +6,7 @@ namespace UserService.Config.Database
 
     public class DatabaseOptionsSetup : IConfigureOptions<DatabaseOptions>
     {
-        private const string ConfigurationSectionName = "Database";
+        private const string ConfigurationSectionName = "DatabaseOptions";
         private readonly IConfiguration _configuration;
 
         public DatabaseOptionsSetup(IConfiguration configuration)
@@ -16,6 +16,7 @@ namespace UserService.Config.Database
 
         public void Configure(DatabaseOptions options)
         {
+            options.ConnectionString = _configuration.GetConnectionString("psql")!;
             _configuration.GetSection(ConfigurationSectionName).Bind(options);
         }
     }
