@@ -1,4 +1,7 @@
 
+using MediatR;
+using UserService.Modules.User.Application.CreateUser;
+
 namespace UserService.Modules.User.Infrastructure.Http.Routes
 {
     public static class UserRouteExtensions
@@ -7,10 +10,13 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
         public static RouteGroupBuilder MapUserRoutes(this RouteGroupBuilder builder)
         {
 
-            builder.MapPut("/", (HttpContext context) =>
+            builder.MapPost("/", async (IMediator mediator, CreateUserCommand dto) =>
             {
-                return Results.NoContent();
-            });
+                var cmd = new CreateUserCommand("Razon", "miah", "miahrazon@gmail.com", "nozar");
+                return await mediator.Send(cmd);
+            })
+            .WithName("CreateUser")
+            .WithDescription("Create a new user");
 
             // implement the rest of the routes here
 
