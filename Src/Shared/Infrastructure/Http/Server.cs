@@ -22,6 +22,16 @@ namespace UserService.Shared.Infrastructure.Http
         {
             //logger http middleware
             App.UseSerilogRequestLogging();
+            //if is dev env, use developer exception page
+            if (App.Environment.IsDevelopment())
+            {
+                App.UseDeveloperExceptionPage();
+            }
+
+            App.UseExceptionHandler(exceptionHandlerApp
+                     => exceptionHandlerApp.Run(async context
+                     => await Results.Problem()
+                        .ExecuteAsync(context)));
         }
 
         private void ConfigureSwagger()
@@ -46,7 +56,6 @@ namespace UserService.Shared.Infrastructure.Http
         {
             var app = App.NewVersionedApi();
             ApiBuilder.BuildRoutes(app);
-
         }
 
         public void Run()
