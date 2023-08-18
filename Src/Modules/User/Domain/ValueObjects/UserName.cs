@@ -16,6 +16,8 @@ namespace UserService.Modules.User.Domain.ValueObjects
 
         public string Value { get; }
 
+        public static explicit operator string(UserName userName) => userName.Value;
+
         public static UserName Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))

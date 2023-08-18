@@ -19,8 +19,7 @@ namespace UserService.Modules.User.Domain.Events
             Data = new
             {
                 user.Email,
-                user.FirstName,
-                user.LastName,
+                user.Name,
                 user.UserName
             };
         }

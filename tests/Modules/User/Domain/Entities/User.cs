@@ -12,14 +12,14 @@ namespace UserService.Tests.Modules.User.Domain.Entities
 
         [Theory]
         [ClassData(typeof(UserData))]
-        public void Create_ValidUser_ReturnsUserInstance(UniqueIdentity id, Email email, FirstName firstName, LastName lastName, UserName userName)
+        public void Create_ValidUser_ReturnsUserInstance(UniqueIdentity id, Email email, Name name, UserName userName)
         {
-            var user = User.Create(id, email, firstName, lastName, userName);
+            var user = User.Create(id, email, name, userName);
 
             Assert.NotNull(user);
             Assert.Equal(email, user.Email);
-            Assert.Equal(firstName, user.FirstName);
-            Assert.Equal(lastName, user.LastName);
+            Assert.Equal(name, user.Name);
+            // Assert.Equal(lastName, user.LastName);
             Assert.Equal(userName, user.UserName);
         }
 
@@ -40,17 +40,16 @@ namespace UserService.Tests.Modules.User.Domain.Entities
             */
     }
 
-    public class UserData : TheoryData<UniqueIdentity, Email, FirstName, LastName, UserName>
+    public class UserData : TheoryData<UniqueIdentity, Email, Name, UserName>
     {
         public UserData()
         {
             var email = Email.Create("example@thery.com");
-            var firstName = FirstName.Create("John");
-            var lastName = LastName.Create("Doe");
+            var name = Name.Create("John", "Doe");
             var userName = UserName.Create("johndoe");
             var id = new UniqueIdentity(null);
 
-            Add(id, email, firstName, lastName, userName);
+            Add(id, email, name, userName);
         }
 
     }

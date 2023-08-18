@@ -1,3 +1,4 @@
+
 namespace UserService.Modules.User.Domain.Entities
 {
     using Serilog;
@@ -9,22 +10,27 @@ namespace UserService.Modules.User.Domain.Entities
     {
 
         public Email Email { get; private set; }
-        public FirstName FirstName { get; private set; }
-        public LastName LastName { get; private set; }
+        public Name Name { get; private set; }
         public UserName UserName { get; private set; }
 
-        private User(UniqueIdentity? id, Email email, FirstName firstName, LastName lastName, UserName userName) : base(id)
+        //Ef Core constructor
+        private User() : base(null)
+        {
+            Email = null!;
+            Name = null!;
+            UserName = null!;
+        }
+        private User(UniqueIdentity? id, Email email, Name name, UserName userName) : base(id)
         {
             Email = email;
-            FirstName = firstName;
-            LastName = lastName;
+            Name = name;
             UserName = userName;
         }
 
-        public static User Create(UniqueIdentity? id, Email email, FirstName firstName, LastName lastName, UserName userName)
+        public static User Create(UniqueIdentity? id, Email email, Name name, UserName userName)
         {
 
-            User user = new(id, email, firstName, lastName, userName);
+            User user = new(id, email, name, userName);
 
             if (id is null)
             {

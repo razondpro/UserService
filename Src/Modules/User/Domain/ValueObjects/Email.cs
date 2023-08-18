@@ -15,6 +15,7 @@ namespace UserService.Modules.User.Domain.ValueObjects
             Value = email;
         }
 
+        public static explicit operator string(Email email) => email.Value;
         public static Email Create(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
