@@ -7,7 +7,7 @@ namespace UserService.Modules.User.Application.CreateUser
         string FirstName,
         string LastName,
         string Email,
-        string UserName) : ICommand<Results<Ok, NotFound>>
+        string UserName) : ICommand<Results<Ok, BadRequest<string>>>
     {
 
     }

@@ -40,20 +40,17 @@ namespace UserService.Shared.Infrastructure.Persistence.Configurations
                 .HasConversion(userName => userName.Value,
                 value => UserName.Create(value));
 
-            builder.Property(user => user.FirstName)
-                .HasColumnName("first_name")
-                .HasMaxLength(FirstName.MaxLength)
-                .IsRequired()
-                .HasConversion(firstName => firstName.Value,
-                value => FirstName.Create(value));
+            builder.OwnsOne(user => user.Name, name =>
+            {
+                name.Property(n => n.FirstName)
+                    .HasMaxLength(Name.MaxLength)
+                    .HasColumnName("first_name")
+                    .IsRequired();
 
-            builder.Property(user => user.LastName)
-                .HasColumnName("last_name")
-                .IsRequired()
-                .HasMaxLength(LastName.MaxLength)
-                .HasConversion(lastName => lastName.Value,
-                value => LastName.Create(value));
-
+                name.Property(n => n.LastName)
+                    .HasMaxLength(Name.MaxLength)
+                    .HasColumnName("last_name");
+            });
         }
     }
 }

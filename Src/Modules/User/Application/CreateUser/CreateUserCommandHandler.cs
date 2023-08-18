@@ -8,25 +8,40 @@ namespace UserService.Modules.User.Application.CreateUser
     using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.ValueObjects;
 
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Results<Ok, NotFound>>
-    {
-        private readonly IUserWriteRepository _userRepository;
+    
 
-        public CreateUserCommandHandler(IUserWriteRepository userRepository)
+    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Results<Ok, BadRequest<string>>>
+    {
+        private readonly IUserWriteRepository _userWriteRepository;
+        private readonly IUserReadRepository _userReadRepository;
+
+        public CreateUserCommandHandler(IUserWriteRepository userRepository, IUserReadRepository userReadRepository)
         {
-            _userRepository = userRepository;
+            _userWriteRepository = userRepository;
+            _userReadRepository = userReadRepository;
         }
 
-        public async Task<Results<Ok, NotFound>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Results<Ok, BadRequest<string>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+
             var email = Email.Create(request.Email);
-            var firstName = FirstName.Create(request.FirstName);
-            var lastName = LastName.Create(request.LastName);
+            if (await _userReadRepository.Get(email) is not null)
+            {
+                return TypedResults.BadRequest("Email already exists");
+            }
+
             var userName = UserName.Create(request.UserName);
+            if (await _userReadRepository.Get(userName) is not null)
+            {
+                return TypedResults.BadRequest("Username already exists");
+            }
 
-            var user = User.Create(null, email, firstName, lastName, userName);
+            var name = Name.Create(request.FirstName, request.LastName);
 
-            await _userRepository.Create(user);
+
+            var user = User.Create(null, email, name, userName);
+
+            await _userWriteRepository.Create(user);
 
             return TypedResults.Ok();
         }

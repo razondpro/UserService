@@ -1,6 +1,7 @@
 
 using MediatR;
 using UserService.Modules.User.Application.CreateUser;
+using UserService.Modules.User.Application.GetUserByEmail;
 
 namespace UserService.Modules.User.Infrastructure.Http.Routes
 {
@@ -18,8 +19,14 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
             .WithName("CreateUser")
             .WithDescription("Create a new user");
 
-            // implement the rest of the routes here
+            
 
+            builder.MapGet("/{email}", async (IMediator mediator, string email) =>
+            {
+                return await mediator.Send(new GetUserByEmailQuery(email));
+            })
+            .WithName("GetUserByEmail")
+            .WithDescription("Get user by email");
             return builder;
         }
     }

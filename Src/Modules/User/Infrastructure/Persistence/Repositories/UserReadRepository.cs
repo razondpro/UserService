@@ -26,13 +26,14 @@ namespace UserService.Modules.User.Infrastructure.Persistence.Repositories
 
         public async Task<User?> Get(Email email)
         {
-            return await DbContext.Users.FindAsync(email.Value);
+            return await DbContext.Users.FirstOrDefaultAsync(u => ((string)u.Email).Equals(email.Value));
         }
 
         public async Task<User?> Get(UserName userName)
         {
-            return await DbContext.Users.FindAsync(userName.Value);
-
+            return await DbContext.Users
+                .Where(u => ((string)u.UserName).Equals(userName.Value))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<IEnumerable<User>> GetAll(CancellationToken cancellationToken = default)
