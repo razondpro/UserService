@@ -8,9 +8,9 @@ namespace UserService.Modules.User.Application.CreateUser
     using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.ValueObjects;
 
-    
 
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Results<Ok, BadRequest<string>>>
+
+    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Results<Created, BadRequest<string>>>
     {
         private readonly IUserWriteRepository _userWriteRepository;
         private readonly IUserReadRepository _userReadRepository;
@@ -21,8 +21,9 @@ namespace UserService.Modules.User.Application.CreateUser
             _userReadRepository = userReadRepository;
         }
 
-        public async Task<Results<Ok, BadRequest<string>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Results<Created, BadRequest<string>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            
 
             var email = Email.Create(request.Email);
             if (await _userReadRepository.Get(email) is not null)
@@ -43,7 +44,7 @@ namespace UserService.Modules.User.Application.CreateUser
 
             await _userWriteRepository.Create(user);
 
-            return TypedResults.Ok();
+            return TypedResults.Created(user.UserName.Value);
         }
     }
 }

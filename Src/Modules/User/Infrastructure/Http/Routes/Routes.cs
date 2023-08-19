@@ -11,15 +11,15 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
         public static RouteGroupBuilder MapUserRoutes(this RouteGroupBuilder builder)
         {
 
-            builder.MapPost("/", async (IMediator mediator, CreateUserCommand dto) =>
+            builder.MapPost("/", async (IMediator mediator, CreateUserCommand req) =>
             {
-                var cmd = new CreateUserCommand("Razon", "miah", "miahrazon@gmail.com", "nozar");
+                var cmd = new CreateUserCommand(req.FirstName, req.LastName, req.Email, req.UserName);
                 return await mediator.Send(cmd);
             })
             .WithName("CreateUser")
             .WithDescription("Create a new user");
 
-            
+
 
             builder.MapGet("/{email}", async (IMediator mediator, string email) =>
             {
@@ -27,6 +27,7 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
             })
             .WithName("GetUserByEmail")
             .WithDescription("Get user by email");
+
             return builder;
         }
     }

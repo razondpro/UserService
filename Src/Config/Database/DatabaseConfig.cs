@@ -13,7 +13,6 @@ namespace UserService.Config.Database
             services.AddDbContext<Database>((provider, options) =>
             {
                 var databaseOptions = provider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
-                Console.WriteLine(databaseOptions);
                 options.UseNpgsql(databaseOptions.ConnectionString, psgOptions =>
                 {
                     psgOptions.EnableRetryOnFailure(databaseOptions.MaxRetryCount);
