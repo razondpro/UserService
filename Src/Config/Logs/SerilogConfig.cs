@@ -18,6 +18,7 @@ namespace UserService.Config.Logs
 
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
+                .Filter.ByExcluding(e => e.Exception is FluentValidation.ValidationException)
                 .CreateLogger();
 
             return Log.Logger;

@@ -1,7 +1,9 @@
 namespace UserService.Shared.Infrastructure.Http
 {
+    using System.Text.Json;
     using Serilog;
     using Shared.Infrastructure.Http.Api;
+    using UserService.Shared.Infrastructure.Http.Middlewares;
 
     public class Server
     {
@@ -15,11 +17,15 @@ namespace UserService.Shared.Infrastructure.Http
 
             ConfigureRoutes();
 
+            configureGlobalErrorHandling();
+
             ConfigureSwagger();
         }
 
         private void ConfigureMiddlewares()
         {
+            //json validation middleware
+            App.UseMiddleware<JsonValidationMiddleware>();
             //logger http middleware
             App.UseSerilogRequestLogging();
             //if is dev env, use developer exception page
@@ -27,11 +33,11 @@ namespace UserService.Shared.Infrastructure.Http
             {
                 App.UseDeveloperExceptionPage();
             }
+        }
 
-            App.UseExceptionHandler(exceptionHandlerApp
-                     => exceptionHandlerApp.Run(async context
-                     => await Results.Problem()
-                        .ExecuteAsync(context)));
+        private void configureGlobalErrorHandling()
+        {
+            App.UseErrorHandlingMiddleware();
         }
 
         private void ConfigureSwagger()
