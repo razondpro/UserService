@@ -1,6 +1,5 @@
-namespace UserService.Shared.Infrastructure.Http.Swagger
+namespace UserService.Config.Swagger
 {
-
     using Microsoft.AspNetCore.Mvc.ApiExplorer;
     using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.OpenApi.Models;

@@ -8,7 +8,7 @@ namespace UserService.Shared.Infrastructure.Http.Routes
         public const int V1 = 1;
         public const int V2 = 2;
 
-        public static WebApplicationBuilder ConfigureVersioning(WebApplicationBuilder builder)
+        public static WebApplicationBuilder ConfigureVersioning(this WebApplicationBuilder builder)
         {
             builder.Services.AddApiVersioning(
                 options =>

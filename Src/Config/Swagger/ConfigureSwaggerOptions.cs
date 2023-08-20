@@ -1,5 +1,4 @@
-
-namespace UserService.Shared.Infrastructure.Http.Swagger
+namespace UserService.Config.Swagger
 {
     using Asp.Versioning;
     using Asp.Versioning.ApiExplorer;

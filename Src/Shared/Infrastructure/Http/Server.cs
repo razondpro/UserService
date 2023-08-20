@@ -1,6 +1,5 @@
 namespace UserService.Shared.Infrastructure.Http
 {
-    using System.Text.Json;
     using Serilog;
     using Shared.Infrastructure.Http.Api;
     using UserService.Shared.Infrastructure.Http.Middlewares;
@@ -17,9 +16,9 @@ namespace UserService.Shared.Infrastructure.Http
 
             ConfigureRoutes();
 
-            configureGlobalErrorHandling();
-
             ConfigureSwagger();
+
+            configureGlobalErrorHandling();
         }
 
         private void ConfigureMiddlewares()
@@ -42,26 +41,28 @@ namespace UserService.Shared.Infrastructure.Http
 
         private void ConfigureSwagger()
         {
-            App.UseSwagger();
-            App.UseSwaggerUI(
-                options =>
-                {
-                    var descriptions = App.DescribeApiVersions();
-
-                    // build a swagger endpoint for each discovered API version
-                    foreach (var description in descriptions)
+            if (App.Environment.IsDevelopment())
+            {
+                App.UseSwagger();
+                App.UseSwaggerUI(
+                    options =>
                     {
-                        var url = $"/swagger/{description.GroupName}/swagger.json";
-                        var name = description.GroupName.ToUpperInvariant();
-                        options.SwaggerEndpoint(url, name);
-                    }
-                });
+                        var descriptions = App.DescribeApiVersions();
+                        // build a swagger endpoint for each discovered API version
+                        foreach (var description in descriptions)
+                        {
+                            var url = $"/swagger/{description.GroupName}/swagger.json";
+                            var name = description.GroupName.ToUpperInvariant();
+                            options.SwaggerEndpoint(url, name);
+                        }
+                    });
+            }
         }
 
         private void ConfigureRoutes()
         {
-            var app = App.NewVersionedApi();
-            ApiBuilder.BuildRoutes(app);
+            App.NewVersionedApi()
+                .BuildRoutes();
         }
 
         public void Run()

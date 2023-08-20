@@ -6,11 +6,8 @@ namespace UserService.Shared.Infrastructure.Http.Api
 
     public static class ApiBuilder
     {
-
-        public static IVersionedEndpointRouteBuilder BuildRoutes(IVersionedEndpointRouteBuilder application)
+        public static IVersionedEndpointRouteBuilder BuildRoutes(this IVersionedEndpointRouteBuilder application)
         {
-
-
             var apiV1 = application.MapGroup("/api/").HasApiVersion(VersioningExtensions.V1);
 
             //users routes v1
@@ -19,7 +16,6 @@ namespace UserService.Shared.Infrastructure.Http.Api
 
             return application;
         }
-
     }
 }
 
