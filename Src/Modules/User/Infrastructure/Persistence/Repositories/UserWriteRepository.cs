@@ -16,7 +16,6 @@ namespace UserService.Modules.User.Infrastructure.Persistence.Repositories
         public async Task Create(Domain.Entities.User user)
         {
             await DbContext.Users.AddAsync(user);
-            await DbContext.SaveChangesAsync();
         }
 
         public Task Delete(Domain.Entities.User user)
