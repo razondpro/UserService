@@ -8,8 +8,6 @@ namespace UserService.Modules.User.Application.CreateUser
     using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.ValueObjects;
 
-
-
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Results<Created, BadRequest<string>>>
     {
         private readonly IUserWriteRepository _userWriteRepository;
@@ -23,7 +21,7 @@ namespace UserService.Modules.User.Application.CreateUser
 
         public async Task<Results<Created, BadRequest<string>>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            
+
 
             var email = Email.Create(request.Email);
             if (await _userReadRepository.Get(email) is not null)
