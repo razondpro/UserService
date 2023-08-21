@@ -1,4 +1,4 @@
-namespace UserService.Modules.User.Infrastructure.Persistence.Repositories
+namespace UserService.Modules.User.Infrastructure.Persistence.Repositories.Implementations
 {
     using System.Collections.Generic;
     using System.Threading;

@@ -1,7 +1,7 @@
 using UserService.Modules.User.Domain.Repositories;
 using UserService.Shared.Infrastructure.Persistence;
 
-namespace UserService.Modules.User.Infrastructure.Persistence.Repositories
+namespace UserService.Modules.User.Infrastructure.Persistence.Repositories.Implementations
 {
 
     public class UserWriteRepository : IUserWriteRepository
