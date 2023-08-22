@@ -2,7 +2,7 @@
 namespace UserService.Modules.User.Domain.Entities
 {
     using Serilog;
-    using Modules.User.Domain.Events;
+    using Modules.User.Domain.Events.UserCreated;
     using Modules.User.Domain.ValueObjects;
     using Shared.Domain;
 
@@ -34,7 +34,7 @@ namespace UserService.Modules.User.Domain.Entities
 
             if (id is null)
             {
-                user.AddDomainEvent(new UserCreated(user));
+                user.AddDomainEvent(new UserCreatedDomainEvent(user));
                 Log.Information("New User created: {@user}", user);
             }
 

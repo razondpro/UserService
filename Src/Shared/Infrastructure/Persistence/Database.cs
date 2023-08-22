@@ -3,10 +3,12 @@ namespace UserService.Shared.Infrastructure.Persistence
 {
     using Microsoft.EntityFrameworkCore;
     using UserService.Modules.User.Domain.Entities;
+    using UserService.Shared.Domain.Events;
 
     public class Database : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<OutboxMessage> OutboxMessages { get; set; }
         public Database(DbContextOptions<Database> options) : base(options)
         {
         }

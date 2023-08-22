@@ -1,9 +1,8 @@
 namespace UserService.Shared.Domain.Events
 {
-    public interface IDomainEvent
+    public interface IDomainEvent<T> : IEvent
     {
-        DateTime Timestamp { get; }
         UniqueIdentity AggregateId { get; }
-        object Data { get; }
+        T Data { get; }
     }
 }

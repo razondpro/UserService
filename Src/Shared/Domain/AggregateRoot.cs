@@ -1,32 +1,23 @@
+using UserService.Shared.Domain.Events;
+
 namespace UserService.Shared.Domain
 {
-
-    using Shared.Domain.Events;
-
     public class AggregateRoot : Entity
     {
 
-        private readonly List<IDomainEvent> domainEvents = new();
+        private readonly List<IEvent> _domainEvents = new();
 
         protected AggregateRoot(UniqueIdentity? id) : base(id)
         {
         }
 
-        public IEnumerable<IDomainEvent> GetDomainEvents()
+        protected void AddDomainEvent(IEvent domainEvent)
         {
-            return domainEvents;
+            _domainEvents.Add(domainEvent);
         }
 
-        public void AddDomainEvent(IDomainEvent domainEvent)
-        {
-            domainEvents.Add(domainEvent);
-            DomainEvent.MarkAggregateForDispatch(this);
-        }
+        public IReadOnlyCollection<IEvent> GetDomainEvents() => _domainEvents.ToList();
 
-        public void ClearEvents()
-        {
-            domainEvents.Clear();
-        }
-
+        public void ClearDomainEvents() => _domainEvents.Clear();
     }
 }
