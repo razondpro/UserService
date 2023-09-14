@@ -8,7 +8,7 @@ namespace UserService.Modules.User.Domain.ValueObjects
     {
         public static readonly int MaxLength = 20;
         public static readonly int MinLength = 3;
-        public static readonly Regex UserNameRegex = new(@"^[a-zA-Z0-9]+$", RegexOptions.Compiled);
+        public static readonly Regex UserNameRegex = new(@"^[a-zA-Z0-9_]+$", RegexOptions.Compiled);
         private UserName(string value)
         {
             Value = value;
