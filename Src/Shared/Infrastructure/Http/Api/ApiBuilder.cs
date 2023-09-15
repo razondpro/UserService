@@ -10,6 +10,8 @@ namespace UserService.Shared.Infrastructure.Http.Api
         {
             var apiV1 = application.MapGroup("/api/").HasApiVersion(VersioningExtensions.V1);
 
+            //health check
+            apiV1.MapHealthChecks("/healthz");
             //users routes v1
             var usersApiV1 = apiV1.MapGroup("/users");
             UserRouteExtensions.MapUserRoutes(usersApiV1).WithTags("Users");
