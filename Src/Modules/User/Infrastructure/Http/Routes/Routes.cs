@@ -1,5 +1,6 @@
 
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using UserService.Modules.User.Application.CreateUser;
 using UserService.Modules.User.Application.GetUserByEmail;
 
@@ -13,8 +14,7 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
 
             builder.MapPost("/", async (IMediator mediator, CreateUserCommand req) =>
             {
-                var cmd = new CreateUserCommand(req.FirstName, req.LastName, req.Email, req.UserName);
-                return await mediator.Send(cmd);
+                return await mediator.Send(req);
             })
             .WithName("CreateUser")
             .WithDescription("Create a new user");

@@ -26,7 +26,6 @@ namespace UserService.Modules.User.Application.GetUserByEmail
             }
 
             return TypedResults.Ok(new UserResponse(
-                user.Id.Value.ToString(),
                 user.Name.FirstName,
                 user.Name.LastName,
                 user.Email.Value,
