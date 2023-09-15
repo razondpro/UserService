@@ -6,11 +6,10 @@ namespace UserService.Shared.Infrastructure.Http
 
     public class Server
     {
-
-        private readonly WebApplication App;
+        private readonly WebApplication _app;
         public Server(WebApplicationBuilder builder)
         {
-            App = builder.Build();
+            _app = builder.Build();
 
             ConfigureMiddlewares();
 
@@ -19,35 +18,48 @@ namespace UserService.Shared.Infrastructure.Http
             ConfigureSwagger();
 
             configureGlobalErrorHandling();
+
+            ConfigureAppLifetimeEvents();
+        }
+
+        private void ConfigureAppLifetimeEvents()
+        {
+            _app.Services.GetRequiredService<IHostApplicationLifetime>()
+                .ApplicationStopping.Register(OnApplicationStopping);
+        }
+        public void OnApplicationStopping()
+        {
+            Log.Information("Stopping application");
+            //TODO: add logic to stop application
         }
 
         private void ConfigureMiddlewares()
         {
             //json validation middleware
-            App.UseMiddleware<JsonValidationMiddleware>();
+            _app.UseMiddleware<JsonValidationMiddleware>();
             //logger http middleware
-            App.UseSerilogRequestLogging();
+            _app.UseSerilogRequestLogging();
             //if is dev env, use developer exception page
-            if (App.Environment.IsDevelopment())
+            if (_app.Environment.IsDevelopment())
             {
-                App.UseDeveloperExceptionPage();
+                _app.UseDeveloperExceptionPage();
             }
         }
 
         private void configureGlobalErrorHandling()
         {
-            App.UseErrorHandlingMiddleware();
+            _app.UseErrorHandlingMiddleware();
         }
 
         private void ConfigureSwagger()
         {
-            if (App.Environment.IsDevelopment())
+            if (_app.Environment.IsDevelopment())
             {
-                App.UseSwagger();
-                App.UseSwaggerUI(
+                _app.UseSwagger();
+                _app.UseSwaggerUI(
                     options =>
                     {
-                        var descriptions = App.DescribeApiVersions();
+                        var descriptions = _app.DescribeApiVersions();
                         // build a swagger endpoint for each discovered API version
                         foreach (var description in descriptions)
                         {
@@ -61,14 +73,19 @@ namespace UserService.Shared.Infrastructure.Http
 
         private void ConfigureRoutes()
         {
-            App.NewVersionedApi()
+            _app.NewVersionedApi()
                 .BuildRoutes();
         }
 
-        public void Run()
+        public async Task RunAsync()
         {
             Log.Information("Starting web host");
-            App.Run();
+            await _app.RunAsync();
+        }
+        public async Task StopAsync()
+        {
+            Log.Information("Stopping web host");
+            await _app.StopAsync();
         }
     }
 }
