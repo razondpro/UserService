@@ -1,7 +1,6 @@
-using System.Reflection;
-
 namespace UserService.Config
 {
+    using System.Reflection;
     public static class DependencyInjection
     {
 

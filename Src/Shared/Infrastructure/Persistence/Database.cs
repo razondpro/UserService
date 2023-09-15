@@ -1,4 +1,3 @@
-
 namespace UserService.Shared.Infrastructure.Persistence
 {
     using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,3 @@
-
 namespace UserService.Shared.Infrastructure.Http.Routes
 {
     using Asp.Versioning;

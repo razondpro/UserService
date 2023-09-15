@@ -47,6 +47,8 @@ namespace UserService.Shared.Infrastructure.Http.Middlewares
 
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
+                        Log.Error(exception, "An error occurred while processing the request");
+
                         await context.Response.WriteAsJsonAsync(response);
                     }
                 }

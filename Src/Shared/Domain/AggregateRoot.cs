@@ -1,7 +1,6 @@
-using UserService.Shared.Domain.Events;
-
 namespace UserService.Shared.Domain
 {
+    using UserService.Shared.Domain.Events;
     public class AggregateRoot : Entity
     {
 

@@ -1,38 +1,37 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using UserService.Shared.Domain.Events;
-
 namespace UserService.Shared.Infrastructure.Persistence.Moddels
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using UserService.Shared.Domain.Events;
     public class OutboxMessagesModelConfiguration : IEntityTypeConfiguration<OutboxMessage>
     {
         public void Configure(EntityTypeBuilder<OutboxMessage> builder)
         {
             builder.ToTable("outbox_messages");
 
-            builder.HasKey(user => user.Id);
+            builder.HasKey(ob => ob.Id);
 
-            builder.HasIndex(user => user.Type);
+            builder.HasIndex(ob => ob.Type);
 
-            builder.Property(user => user.Id)
+            builder.Property(ob => ob.Id)
                 .HasColumnName("id");
 
-            builder.Property(user => user.Type)
+            builder.Property(ob => ob.Type)
                 .HasColumnName("type")
                 .IsRequired();
 
-            builder.Property(user => user.Data)
+            builder.Property(ob => ob.Data)
                 .HasColumnName("data")
                 .IsRequired();
 
-            builder.Property(user => user.OccurredOn)
+            builder.Property(ob => ob.OccurredOn)
                 .HasColumnName("occurred_on")
                 .IsRequired();
 
-            builder.Property(user => user.ProcessedOn)
+            builder.Property(ob => ob.ProcessedOn)
                 .HasColumnName("processed_on");
 
-            builder.Property(user => user.Error)
+            builder.Property(ob => ob.Error)
                 .HasColumnName("error");
 
         }

@@ -4,7 +4,6 @@ namespace UserService.Modules.User.Application.Abstractions.Behaviors
     using FluentValidation.Results;
     using MediatR;
     using System.Linq;
-    using UserService.Modules.User.Application.Abstractions.Commands;
 
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
@@ -15,10 +14,10 @@ namespace UserService.Modules.User.Application.Abstractions.Behaviors
         {
             _validator = validator;
         }
-                public async Task<TResponse> Handle(
-                    TRequest request,
-                    RequestHandlerDelegate<TResponse> next,
-                    CancellationToken cancellationToken)
+        public async Task<TResponse> Handle(
+            TRequest request,
+            RequestHandlerDelegate<TResponse> next,
+            CancellationToken cancellationToken)
         {
 
             var validationContext = new ValidationContext<TRequest>(request);
