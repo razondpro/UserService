@@ -3,7 +3,6 @@ namespace UserService.Shared.Infrastructure.Persistence.Core
 
     using Newtonsoft.Json;
     using UserService.Shared.Domain;
-    using UserService.Shared.Domain.Events;
 
 
     public class UnitOfWork : IUnitOfWork

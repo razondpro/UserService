@@ -2,7 +2,7 @@ namespace UserService.Shared.Infrastructure.Persistence
 {
     using Microsoft.EntityFrameworkCore;
     using UserService.Modules.User.Domain.Entities;
-    using UserService.Shared.Domain.Events;
+    using UserService.Shared.Infrastructure.Persistence.Core;
 
     public class Database : DbContext
     {

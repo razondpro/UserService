@@ -11,7 +11,6 @@ namespace UserService.Modules.User.Domain.ValueObjects
         public static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
         public string FirstName { get; init; }
         public string LastName { get; init; }
-
         private Name(string firstName, string? lastName)
         {
             FirstName = firstName;
