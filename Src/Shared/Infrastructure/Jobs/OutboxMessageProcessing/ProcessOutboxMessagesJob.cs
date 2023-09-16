@@ -3,6 +3,8 @@ namespace UserService.Shared.Infrastructure.Jobs.OutboxMessageProcessing
     using MediatR;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
+    using Polly;
+    using Polly.Retry;
     using Quartz;
     using Serilog;
     using UserService.Shared.Domain.Events;
@@ -39,16 +41,35 @@ namespace UserService.Shared.Infrastructure.Jobs.OutboxMessageProcessing
                     if (domainEvent == null)
                     {
                         throw new Exception(
-                            $"Error deserializing domain event from outbox message id {message.Id} with data {message.Data}");
+                            $"Error deserializing domain event from outbox message id {message.Id}");
                     }
 
-                    await _publisher.Publish(domainEvent, context.CancellationToken);
-                    message.MarkAsProcessed();
+                    AsyncRetryPolicy policy = Policy.Handle<Exception>()
+                        .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                            (exception, timeSpan, retryCount, context) =>
+                            {
+                                Log.Error(exception.Message);
+                            });
+
+                    PolicyResult policyResult = await policy.ExecuteAndCaptureAsync(async () =>
+                    {
+                        await _publisher.Publish(domainEvent, context.CancellationToken);
+                    });
+
+                    if (policyResult.Outcome == OutcomeType.Failure)
+                    {
+                        throw policyResult.FinalException;
+                    }
+
                 }
                 catch (Exception exception)
                 {
                     Log.Error(exception.Message);
                     message.Error = exception.Message;
+                }
+                finally
+                {
+                    message.MarkAsProcessed();
                 }
 
                 _database.OutboxMessages.Update(message);

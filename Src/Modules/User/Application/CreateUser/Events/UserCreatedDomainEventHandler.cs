@@ -8,9 +8,7 @@ namespace UserService.Modules.User.Application.CreateUser.Events
     {
         public Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
-            Log.Information($"UserCreatedDomainEvent processed: {notification.AggregateId}, {notification.Email} email");
-
-            return Task.CompletedTask;
+            throw new NotImplementedException();
         }
     }
 }
