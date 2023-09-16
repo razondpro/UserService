@@ -1,9 +1,9 @@
-namespace UserService.Shared.Infrastructure.Persistence.Core
+namespace UserService.Shared.Infrastructure.Persistence.Core.UnitOfWork
 {
 
     using Newtonsoft.Json;
     using UserService.Shared.Domain;
-
+    using UserService.Shared.Infrastructure.Persistence.Core.Outbox;
 
     public class UnitOfWork : IUnitOfWork
     {

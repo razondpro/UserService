@@ -13,6 +13,7 @@ namespace UserService.Modules.User.Application.CreateUser
                 .Matches(Name.NameRegex);
 
             RuleFor(x => x.LastName)
+                .NotEmpty()
                 .MinimumLength(Name.MinLength)
                 .MaximumLength(Name.MaxLength)
                 .Matches(Name.NameRegex);

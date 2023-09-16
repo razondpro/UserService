@@ -33,7 +33,7 @@ namespace UserService.Shared.Infrastructure.Jobs.OutboxMessageProcessing
             {
                 try
                 {
-                    var domainEvent = JsonConvert.DeserializeObject<DomainEvent>(message.Data, new JsonSerializerSettings
+                    var domainEvent = JsonConvert.DeserializeObject<IDomainEvent>(message.Data, new JsonSerializerSettings
                     {
                         TypeNameHandling = TypeNameHandling.All
                     });

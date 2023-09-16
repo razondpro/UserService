@@ -1,4 +1,4 @@
-namespace UserService.Shared.Infrastructure.Persistence.Core
+namespace UserService.Shared.Infrastructure.Persistence.Core.UnitOfWork
 {
     public interface IUnitOfWork
     {

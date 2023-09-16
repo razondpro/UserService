@@ -11,13 +11,13 @@ namespace UserService.Modules.User.Domain.ValueObjects
         public static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
         public string FirstName { get; init; }
         public string LastName { get; init; }
-        private Name(string firstName, string? lastName)
+        private Name(string firstName, string lastName)
         {
             FirstName = firstName;
             LastName = lastName ?? string.Empty;
         }
 
-        public static Name Create(string firstName, string? lastName = null)
+        public static Name Create(string firstName, string lastName)
         {
 
             if (string.IsNullOrWhiteSpace(firstName))
@@ -35,17 +35,19 @@ namespace UserService.Modules.User.Domain.ValueObjects
                 throw new InvalidNameException("Name must contain only letters");
             }
 
-            if (lastName is not null)
+            if (string.IsNullOrWhiteSpace(lastName))
             {
-                if (lastName.Length < MinLength || lastName.Length > MaxLength)
-                {
-                    throw new InvalidNameException($"Last name must be between {MinLength} and {MaxLength} characters long");
-                }
+                throw new InvalidNameException("Last name is required");
+            }
 
-                if (!NameRegex.IsMatch(lastName))
-                {
-                    throw new InvalidNameException("Last name must contain only letters");
-                }
+            if (lastName.Length < MinLength || lastName.Length > MaxLength)
+            {
+                throw new InvalidNameException($"Last name must be between {MinLength} and {MaxLength} characters long");
+            }
+
+            if (!NameRegex.IsMatch(lastName))
+            {
+                throw new InvalidNameException("Last name must contain only letters");
             }
 
             return new(firstName, lastName);

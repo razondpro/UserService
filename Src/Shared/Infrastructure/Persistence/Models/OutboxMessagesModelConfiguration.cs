@@ -2,7 +2,7 @@ namespace UserService.Shared.Infrastructure.Persistence.Moddels
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using UserService.Shared.Infrastructure.Persistence.Core;
+    using UserService.Shared.Infrastructure.Persistence.Core.Outbox;
 
     public class OutboxMessagesModelConfiguration : IEntityTypeConfiguration<OutboxMessage>
     {

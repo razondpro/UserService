@@ -1,9 +1,9 @@
-namespace UserService.Shared.Infrastructure.Persistence.Core
+namespace UserService.Shared.Infrastructure.Persistence.Core.Outbox
 {
     public class OutboxMessage
     {
         public Guid Id { get; private set; }
-
+        //Event type
         public string Type { get; set; }
 
         public string Data { get; set; }
