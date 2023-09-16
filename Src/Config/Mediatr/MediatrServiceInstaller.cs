@@ -1,8 +1,10 @@
 namespace UserService.Config.Mediatr
 {
+    using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using UserService.Config;
     using UserService.Modules.User.Application.Abstractions.Behaviors;
+    using UserService.Shared.Infrastructure.Idempotence;
 
     public class MediatrServiceInstaller : IServiceInstaller
     {
@@ -14,6 +16,8 @@ namespace UserService.Config.Mediatr
                     cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
                     cfg.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
                 });
+
+            services.Decorate(typeof(INotificationHandler<>), typeof(IdempotentDomainEventHandler<>));
         }
     }
 }

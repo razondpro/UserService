@@ -1,7 +1,7 @@
 using MediatR;
 namespace UserService.Modules.User.Application.Abstractions.Behaviors
 {
-    using UserService.Shared.Infrastructure.Persistence.Core;
+    using UserService.Shared.Infrastructure.Persistence.Core.UnitOfWork;
     public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : notnull
     {

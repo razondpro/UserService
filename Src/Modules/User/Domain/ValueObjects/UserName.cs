@@ -24,7 +24,7 @@ namespace UserService.Modules.User.Domain.ValueObjects
                 throw new InvalidUserNameException("User name is required");
             }
 
-            if (value.Length <= MinLength || value.Length > MaxLength)
+            if (value.Length < MinLength || value.Length > MaxLength)
             {
                 throw new InvalidUserNameException($"User name must be between {MinLength} and {MaxLength} characters long");
             }
