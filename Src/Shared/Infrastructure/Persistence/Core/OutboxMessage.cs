@@ -1,18 +1,18 @@
-namespace UserService.Shared.Domain.Events
+namespace UserService.Shared.Infrastructure.Persistence.Core
 {
     public class OutboxMessage
     {
         public Guid Id { get; private set; }
 
-        public string Type { get; private set; }
+        public string Type { get; set; }
 
-        public string Data { get; private set; }
+        public string Data { get; set; }
 
         public DateTime OccurredOn { get; private set; }
 
         public DateTime? ProcessedOn { get; private set; }
 
-        public string? Error { get; private set; }
+        public string? Error { get; set; }
 
         public OutboxMessage(string type, string data)
         {

@@ -33,7 +33,7 @@ namespace UserService.Modules.User.Domain.Entities
 
             if (id is null)
             {
-                user.AddDomainEvent(new UserCreatedDomainEvent(user));
+                user.AddDomainEvent(new UserCreatedDomainEvent(user.Id, user.Email.Value, user.UserName.Value));
                 Log.Information("New User created: {@user}", user);
             }
 
