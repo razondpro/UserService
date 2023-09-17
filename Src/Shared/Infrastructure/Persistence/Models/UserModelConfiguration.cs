@@ -51,6 +51,13 @@ namespace UserService.Shared.Infrastructure.Persistence.Configurations
                     .HasMaxLength(Name.MaxLength)
                     .HasColumnName("last_name");
             });
+
+            builder.Property(user => user.CreatedOn)
+                .HasColumnName("created_on")
+                .IsRequired();
+
+            builder.Property(user => user.LastModifiedOn)
+                .HasColumnName("last_modified_on");
         }
     }
 }

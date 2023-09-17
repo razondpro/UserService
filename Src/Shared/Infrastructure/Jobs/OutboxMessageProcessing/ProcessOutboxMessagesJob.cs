@@ -75,7 +75,10 @@ namespace UserService.Shared.Infrastructure.Jobs.OutboxMessageProcessing
                 _database.OutboxMessages.Update(message);
             }
 
-            await _database.SaveChangesAsync(context.CancellationToken);
+            if (obMessages.Count > 0)
+            {
+                await _database.SaveChangesAsync(context.CancellationToken);
+            }
         }
     }
 }
