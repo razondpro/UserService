@@ -4,13 +4,16 @@ namespace UserService.Modules.User.Domain.Entities
     using Modules.User.Domain.Events.UserCreated;
     using Modules.User.Domain.ValueObjects;
     using Shared.Domain;
+    using System;
 
-    public class User : AggregateRoot
+    public class User : AggregateRoot, IAuditableEntity
     {
 
         public Email Email { get; private set; }
         public Name Name { get; private set; }
         public UserName UserName { get; private set; }
+        public DateTime CreatedOn { get; set; }
+        public DateTime? LastModifiedOn { get; set; }
 
         //Ef Core constructor
         private User() : base(null)

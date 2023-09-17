@@ -4,6 +4,7 @@ namespace UserService.Config.Database
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;
+    using UserService.Shared.Infrastructure.Persistence.Core.Interceptors;
 
     public static class DatabaseConfig
     {
@@ -20,6 +21,9 @@ namespace UserService.Config.Database
                 });
                 options.EnableDetailedErrors(databaseOptions.EnableDetailedErrors);
                 options.EnableSensitiveDataLogging(databaseOptions.EnableSensitiveDataLogging);
+
+                var updateAuditableEntitiesInterceptor = provider.GetRequiredService<UpdateAuditableEntitiesInterceptor>();
+                options.AddInterceptors(updateAuditableEntitiesInterceptor);
 
             });
 

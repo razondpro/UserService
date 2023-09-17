@@ -19,12 +19,12 @@ namespace UserService.Shared.Infrastructure.Persistence.Core.Outbox
             Id = Guid.NewGuid();
             Type = type;
             Data = data;
-            OccurredOn = DateTime.Now.ToUniversalTime();
+            OccurredOn = DateTime.UtcNow;
         }
 
         public void MarkAsProcessed()
         {
-            ProcessedOn = DateTime.Now.ToUniversalTime();
+            ProcessedOn = DateTime.UtcNow;
         }
 
     }
