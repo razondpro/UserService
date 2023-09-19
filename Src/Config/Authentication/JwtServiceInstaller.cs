@@ -1,17 +1,14 @@
-
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
 namespace UserService.Config.Authentication
 {
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+
     public class JwtServiceInstaller : IServiceInstaller
     {
         public void Install(IServiceCollection services, IConfiguration configuration)
         {
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(
-                    
-                );
+                .AddJwtBearer();
 
             services.AddAuthorization();
 

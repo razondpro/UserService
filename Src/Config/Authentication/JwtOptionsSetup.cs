@@ -1,7 +1,7 @@
-using Microsoft.Extensions.Options;
-
 namespace UserService.Config.Authentication
 {
+    using Microsoft.Extensions.Options;
+
     public class JwtOptionsSetup : IConfigureOptions<JwtOptions>
     {
         private const string ConfigurationSectionName = "JwtOptions";
