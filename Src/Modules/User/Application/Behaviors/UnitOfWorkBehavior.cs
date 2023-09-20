@@ -1,5 +1,5 @@
 using MediatR;
-namespace UserService.Modules.User.Application.Abstractions.Behaviors
+namespace UserService.Modules.User.Application.Behaviors
 {
     using UserService.Shared.Infrastructure.Persistence.Core.UnitOfWork;
     public class UnitOfWorkBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>

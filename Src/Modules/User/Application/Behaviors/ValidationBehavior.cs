@@ -1,4 +1,4 @@
-namespace UserService.Modules.User.Application.Abstractions.Behaviors
+namespace UserService.Modules.User.Application.Behaviors
 {
     using FluentValidation;
     using FluentValidation.Results;

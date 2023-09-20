@@ -1,7 +1,7 @@
 namespace UserService.Modules.User.Application.CreateUser
 {
     using Microsoft.AspNetCore.Http.HttpResults;
-    using UserService.Modules.User.Application.Abstractions.Commands;
+    using UserService.Shared.Application.Commands;
 
     public sealed record CreateUserCommand(
         string FirstName,

@@ -3,9 +3,9 @@ namespace UserService.Modules.User.Application.GetUserByEmail
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http.HttpResults;
-    using UserService.Modules.User.Application.Abstractions.Queries;
     using UserService.Modules.User.Domain.Repositories;
     using UserService.Modules.User.Domain.ValueObjects;
+    using UserService.Shared.Application.Queries;
 
     public class GetUserByEmailQueryHandler : IQueryHandler<GetUserByEmailQuery, Results<Ok<UserResponse>, NotFound>>
     {

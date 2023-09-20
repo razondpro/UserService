@@ -3,10 +3,10 @@ namespace UserService.Modules.User.Application.CreateUser
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http.HttpResults;
-    using UserService.Modules.User.Application.Abstractions.Commands;
     using UserService.Modules.User.Domain.Repositories;
     using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.ValueObjects;
+    using UserService.Shared.Application.Commands;
 
     public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Results<Created, BadRequest<string>>>
     {

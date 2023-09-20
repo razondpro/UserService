@@ -1,4 +1,4 @@
-namespace UserService.Modules.User.Application.Abstractions.Queries
+namespace UserService.Shared.Application.Queries
 {
     using MediatR;
     public interface IQueryHandler<TQuery, TResponse> : IRequestHandler<TQuery, TResponse>
