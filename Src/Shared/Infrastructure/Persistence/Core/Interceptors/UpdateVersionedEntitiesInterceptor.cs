@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Serilog;
 using UserService.Shared.Domain;
 
 namespace UserService.Shared.Infrastructure.Persistence.Core.Interceptors
