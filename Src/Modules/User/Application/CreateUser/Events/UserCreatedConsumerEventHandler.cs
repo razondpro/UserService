@@ -15,6 +15,9 @@ namespace UserService.Modules.User.Application.CreateUser.Events
 
         public async Task Handle(UserCreatedConsumerEvent @event, Func<Task> commit)
         {
+            // validate event
+
+
             var cmd = new CreateUserCommand(@event.FirstName, @event.LastName, @event.Email, @event.UserName);
             var results = await _mediator.Send(cmd);
 

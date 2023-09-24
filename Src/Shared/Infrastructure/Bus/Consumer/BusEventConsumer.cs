@@ -2,22 +2,21 @@ namespace UserService.Shared.Infrastructure.Bus.Consumer
 {
     using System.Text.Json;
     using Confluent.Kafka;
-    using Microsoft.Extensions.Options;
     using Serilog;
     using UserService.Shared.Infrastructure.Bus.Consumer.Core;
     using UserService.Shared.Infrastructure.Bus.Mappers;
 
-    public class ConsumerEvent : IConsumerEvent
+    public class BusEventConsumer : IConsumerEvent
     {
         private readonly ConsumerConfig _consumerConfig;
 
-        public ConsumerEvent(IOptions<ConsumerConfig> consumerConfig)
+        public BusEventConsumer(ConsumerConfig consumerConfig)
         {
-            _consumerConfig = consumerConfig.Value;
+            _consumerConfig = consumerConfig;
         }
 
         //TODO - Improve this Consume method to invoke handler method to async
-        public void Consume(List<string> topics, CancellationToken stoppingToken)
+        public void Consume(string[] topics, CancellationToken stoppingToken)
         {
             using var consumer = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build();
             consumer.Subscribe(topics);
