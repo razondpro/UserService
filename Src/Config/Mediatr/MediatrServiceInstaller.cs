@@ -13,7 +13,6 @@ namespace UserService.Config.Mediatr
             services.AddMediatR(cfg =>
                 {
                     cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);
-                    cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
                     cfg.AddOpenBehavior(typeof(UnitOfWorkBehavior<,>));
                 });
 

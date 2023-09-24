@@ -7,6 +7,7 @@ namespace UserService.Config.Http
     {
         public void Install(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddHttpContextAccessor();
             services.AddScoped<CreateUserHttpController>();
             services.AddScoped<FindUserByEmailHttpController>();
         }

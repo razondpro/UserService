@@ -6,18 +6,23 @@ namespace UserService.Modules.User.Application.CreateUser
     using UserService.Shared.Application.Commands;
     using LanguageExt;
 
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Either<Exception, Unit>>
+    public class CreateUserCommandHandler :
+        ICommandHandler<CreateUserCommand, Either<Exception, Unit>>
     {
         private readonly IUserWriteRepository _userWriteRepository;
         private readonly IUserReadRepository _userReadRepository;
-
-        public CreateUserCommandHandler(IUserWriteRepository userRepository, IUserReadRepository userReadRepository)
+        public CreateUserCommandHandler(
+            IUserWriteRepository userRepository,
+            IUserReadRepository userReadRepository
+            )
         {
             _userWriteRepository = userRepository;
             _userReadRepository = userReadRepository;
         }
 
-        public async Task<Either<Exception, Unit>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+        public async Task<Either<Exception, Unit>> Handle(
+            CreateUserCommand request,
+            CancellationToken cancellationToken)
         {
             var email = Email.Create(request.Email);
             if (await _userReadRepository.Get(email) is not null)
@@ -37,6 +42,7 @@ namespace UserService.Modules.User.Application.CreateUser
             var user = User.Create(null, email, name, userName);
 
             await _userWriteRepository.Create(user);
+
 
             return Unit.Default;
         }

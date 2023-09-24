@@ -1,11 +1,13 @@
 namespace UserService.Modules.User.Application.FindUserByEmail
 {
     using LanguageExt;
+    using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.Repositories;
     using UserService.Modules.User.Domain.ValueObjects;
     using UserService.Shared.Application.Queries;
 
-    public class FindUserByEmailQueryHandler : IQueryHandler<FindUserByEmailQuery, Either<Exception, UserResponse>>
+    public class FindUserByEmailQueryHandler :
+        IQueryHandler<FindUserByEmailQuery, Either<Exception, User>>
     {
         private readonly IUserReadRepository _userRepository;
 
@@ -14,7 +16,9 @@ namespace UserService.Modules.User.Application.FindUserByEmail
             _userRepository = userRepository;
         }
 
-        public async Task<Either<Exception, UserResponse>> Handle(FindUserByEmailQuery request, CancellationToken cancellationToken)
+        public async Task<Either<Exception, User>> Handle(
+            FindUserByEmailQuery request,
+            CancellationToken cancellationToken)
         {
             var user = await _userRepository.Get(Email.Create(request.Email));
 
@@ -23,12 +27,7 @@ namespace UserService.Modules.User.Application.FindUserByEmail
                 return new UserNotFoundByEmailError();
             }
 
-            return new UserResponse(
-                user.Name.FirstName,
-                user.Name.LastName,
-                user.Email.Value,
-                user.UserName.Value
-            );
+            return user;
         }
     }
 }

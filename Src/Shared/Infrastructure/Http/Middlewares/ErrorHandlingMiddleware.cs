@@ -8,6 +8,7 @@ namespace UserService.Shared.Infrastructure.Http.Middlewares
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Serilog;
+    using UserService.Shared.Infrastructure.Http.Core;
 
     public static class ErrorHandlingMiddlewareExtensions
     {
@@ -22,28 +23,20 @@ namespace UserService.Shared.Infrastructure.Http.Middlewares
 
                     if (exception is ValidationException validationException)
                     {
-                        var errors = validationException.Errors
-                            .Select(x => new { x.PropertyName, x.ErrorMessage })
+
+                        var errorDetails = validationException.Errors
+                            .Select(x => new ErrorDetail(x.PropertyName, x.ErrorMessage))
                             .ToList();
 
-                        var response = new ProblemDetails
-                        {
-                            Title = "Bad Request",
-                            Status = (int)HttpStatusCode.BadRequest,
-                        };
-                        response.Extensions.Add("errors", errors);
+                        ApiHttpResponse errResponse = new("Bad Request", (int)HttpStatusCode.BadRequest, errorDetails);
 
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
-                        await context.Response.WriteAsJsonAsync(response);
+                        await context.Response.WriteAsJsonAsync(errResponse);
                     }
                     else
                     {
-                        var response = new ProblemDetails
-                        {
-                            Title = "Internal Server Error",
-                            Status = (int)HttpStatusCode.InternalServerError,
-                        };
+                        ApiHttpResponse response = new("Internal Server Error", (int)HttpStatusCode.InternalServerError);
 
                         context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 

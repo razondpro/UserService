@@ -7,8 +7,5 @@ namespace UserService.Modules.User.Application.CreateUser
         string FirstName,
         string LastName,
         string Email,
-        string UserName) : ICommand<Either<Exception, Unit>>
-    {
-
-    }
+        string UserName) : ICommand<Either<Exception, Unit>>;
 }
