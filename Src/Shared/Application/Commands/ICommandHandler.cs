@@ -1,4 +1,4 @@
-namespace UserService.Modules.User.Application.Abstractions.Commands
+namespace UserService.Shared.Application.Commands
 {
       using MediatR;
       public interface ICommandHandler<TCommand> : IRequestHandler<TCommand>

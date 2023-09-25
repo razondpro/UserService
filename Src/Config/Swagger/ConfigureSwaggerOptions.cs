@@ -35,12 +35,12 @@ namespace UserService.Config.Swagger
 
         private static OpenApiInfo CreateInfoForApiVersion(ApiVersionDescription description)
         {
-            var text = new StringBuilder("An example application with OpenAPI, Swashbuckle, and API versioning.");
+            var text = new StringBuilder("An API to test DDD architecture with Kafka. ");
             var info = new OpenApiInfo()
             {
-                Title = "Example API",
+                Title = "DDD API",
                 Version = description.ApiVersion.ToString(),
-                Contact = new OpenApiContact() { Name = "Bill Mei", Email = "bill.mei@somewhere.com" },
+                Contact = new OpenApiContact() { Name = "Razon Miah", Email = "miahrazon@gmail.com" },
                 License = new OpenApiLicense() { Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT") }
             };
 

@@ -2,7 +2,7 @@ namespace UserService.Modules.User.Application.CreateUser
 {
     using FluentValidation;
     using UserService.Modules.User.Domain.ValueObjects;
-    public class CreateUserValidator : AbstractValidator<CreateUserCommand>
+    public class CreateUserValidator : AbstractValidator<CreateUserRequestDto>
     {
         public CreateUserValidator()
         {

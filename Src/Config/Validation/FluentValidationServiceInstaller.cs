@@ -2,13 +2,13 @@ namespace UserService.Config.Validation
 {
     using FluentValidation;
     using UserService.Modules.User.Application.CreateUser;
-    using UserService.Modules.User.Application.GetUserByEmail;
+    using UserService.Modules.User.Application.FindUserByEmail;
     public class FluentValidationServiceInstaller : IServiceInstaller
     {
         public void Install(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IValidator<CreateUserCommand>, CreateUserValidator>();
-            services.AddScoped<IValidator<GetUserByEmailQuery>, GetUserByEmailValidator>();
+            services.AddScoped<IValidator<CreateUserRequestDto>, CreateUserValidator>();
+            services.AddScoped<IValidator<FindUserByEmailRequestDto>, FindUserByEmailValidator>();
         }
     }
 }

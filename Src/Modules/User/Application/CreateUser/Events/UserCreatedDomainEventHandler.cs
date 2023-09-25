@@ -2,7 +2,6 @@ namespace UserService.Modules.User.Application.CreateUser.Events
 {
     using System.Threading;
     using System.Threading.Tasks;
-    using MediatR;
     using Serilog;
     using UserService.Modules.User.Domain.Events.UserCreated;
     using UserService.Shared.Domain.Events;
