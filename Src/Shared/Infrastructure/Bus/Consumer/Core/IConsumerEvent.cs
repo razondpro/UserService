@@ -1,7 +1,12 @@
+using MediatR;
+
 namespace UserService.Shared.Infrastructure.Bus.Consumer.Core
 {
-    public interface IConsumerEvent
+    public interface IConsumerEvent : INotification
     {
-        void Consume(string[] topics, CancellationToken stoppingToken);
+        public Guid Id { get; }
+        public int Version { get; }
+        public string Type { get; }
+
     }
 }

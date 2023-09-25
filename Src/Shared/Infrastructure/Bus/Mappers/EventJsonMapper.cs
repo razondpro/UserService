@@ -5,9 +5,9 @@ using UserService.Shared.Infrastructure.Bus.Consumer.Events;
 
 namespace UserService.Shared.Infrastructure.Bus.Mappers
 {
-    public class EventJsonMapper : JsonConverter<BaseConsumerEvent>
+    public class EventJsonMapper : JsonConverter<IConsumerEvent>
     {
-        public override BaseConsumerEvent? Read(ref Utf8JsonReader reader, System.Type typeToConvert, JsonSerializerOptions options)
+        public override IConsumerEvent? Read(ref Utf8JsonReader reader, System.Type typeToConvert, JsonSerializerOptions options)
         {
             if (!JsonDocument.TryParseValue(ref reader, out var doc))
             {
@@ -22,14 +22,15 @@ namespace UserService.Shared.Infrastructure.Bus.Mappers
             var typeValue = type.GetString();
             var json = doc.RootElement.GetRawText();
 
+            // we only need to deserialize the event that we are interested in, otherwise we can ignore it
             return typeValue switch
             {
                 UserCreatedConsumerEvent.EVENT_NAME => JsonSerializer.Deserialize<UserCreatedConsumerEvent>(json, options),
-                _ => throw new JsonException($"Unknown {nameof(BaseConsumerEvent)} type: {typeValue}")
+                _ => new IgnoreConsumerEvent()
             };
         }
 
-        public override void Write(Utf8JsonWriter writer, BaseConsumerEvent value, JsonSerializerOptions options)
+        public override void Write(Utf8JsonWriter writer, IConsumerEvent value, JsonSerializerOptions options)
         {
             JsonSerializer.Serialize(writer, value, options);
         }

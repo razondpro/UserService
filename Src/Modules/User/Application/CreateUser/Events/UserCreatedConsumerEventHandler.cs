@@ -6,23 +6,21 @@ namespace UserService.Modules.User.Application.CreateUser.Events
 {
     public class UserCreatedConsumerEventHandler : IConsumerEventHandler<UserCreatedConsumerEvent>
     {
-        private readonly IMediator _mediator;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public UserCreatedConsumerEventHandler(IMediator mediator)
+        public UserCreatedConsumerEventHandler(IServiceScopeFactory serviceScopeFactory)
         {
-            _mediator = mediator;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task Handle(UserCreatedConsumerEvent @event, Func<Task> commit)
+        public async Task Handle(UserCreatedConsumerEvent notification, CancellationToken cancellationToken)
         {
-            // validate event
-
-
-            var cmd = new CreateUserCommand(@event.FirstName, @event.LastName, @event.Email, @event.UserName);
-            var results = await _mediator.Send(cmd);
-
-            //if (results.IsOk) await commit();
-
+            using (var scope = _serviceScopeFactory.CreateScope())
+            {
+                var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+                var cmd = new CreateUserCommand(@notification.FirstName, @notification.LastName, @notification.Email, @notification.UserName);
+                var result = await mediator.Send(cmd);
+            }
         }
     }
 }

@@ -6,18 +6,17 @@ namespace UserService.Shared.Infrastructure.Bus.Consumer
 {
     public class ConsumerBackgroundService : BackgroundService
     {
-        private readonly IConsumerEvent _consumerEvent;
+        private readonly IBusConsumer _consumerEvent;
         private readonly BusOptions _busOptions;
 
-        public ConsumerBackgroundService(IConsumerEvent consumerEvent, IOptions<BusOptions> busOptions)
+        public ConsumerBackgroundService(IBusConsumer consumerEvent, IOptions<BusOptions> busOptions)
         {
             _consumerEvent = consumerEvent;
             _busOptions = busOptions.Value;
         }
-        protected override Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _consumerEvent.Consume(_busOptions.Topics, stoppingToken);
-            return Task.CompletedTask;
+            await _consumerEvent.Consume(_busOptions.Topics, stoppingToken);
         }
     }
 }

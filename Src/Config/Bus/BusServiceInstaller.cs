@@ -23,7 +23,7 @@ namespace UserService.Config.Bus
                     EnableAutoCommit = busOptions.EnableAutoCommit
                 };
             });
-            services.AddSingleton<IConsumerEvent, BusEventConsumer>();
+            services.AddSingleton<IBusConsumer, EventBusConsumer>();
             services.AddHostedService<ConsumerBackgroundService>();
         }
     }

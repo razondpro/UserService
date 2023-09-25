@@ -11,13 +11,15 @@ namespace UserService.Config.Jobs
 
             services.AddQuartz(q =>
             {
-                var jobKey = new JobKey(nameof(ProcessOutboxMessagesJob));
-                q.AddJob<ProcessOutboxMessagesJob>(opts => opts.WithIdentity(jobKey))
-                    .AddTrigger(opts => opts.ForJob(jobKey)
+                var obMessage = new JobKey(nameof(ProcessOutboxMessagesJob));
+                q.AddJob<ProcessOutboxMessagesJob>(opts => opts.WithIdentity(obMessage))
+                    .AddTrigger(opts => opts.ForJob(obMessage)
                         .WithSimpleSchedule(builder =>
                             builder.WithIntervalInSeconds(10)
                                 .RepeatForever()));
             });
+
+
 
             services.AddQuartzHostedService();
         }

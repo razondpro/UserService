@@ -2,21 +2,24 @@ namespace UserService.Shared.Infrastructure.Bus.Consumer
 {
     using System.Text.Json;
     using Confluent.Kafka;
+    using MediatR;
     using Serilog;
     using UserService.Shared.Infrastructure.Bus.Consumer.Core;
+    using UserService.Shared.Infrastructure.Bus.Consumer.Events;
     using UserService.Shared.Infrastructure.Bus.Mappers;
 
-    public class BusEventConsumer : IConsumerEvent
+    public class EventBusConsumer : IBusConsumer
     {
         private readonly ConsumerConfig _consumerConfig;
+        private readonly IPublisher _publisher;
 
-        public BusEventConsumer(ConsumerConfig consumerConfig)
+        public EventBusConsumer(ConsumerConfig consumerConfig, IPublisher publisher)
         {
             _consumerConfig = consumerConfig;
+            _publisher = publisher;
         }
 
-        //TODO - Improve this Consume method to invoke handler method to async
-        public void Consume(string[] topics, CancellationToken stoppingToken)
+        public async Task Consume(string[] topics, CancellationToken stoppingToken)
         {
             using var consumer = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build();
             consumer.Subscribe(topics);
@@ -26,30 +29,29 @@ namespace UserService.Shared.Infrastructure.Bus.Consumer
 
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var consumeResult = consumer.Consume(stoppingToken);
+                    var consumeResult = await Task.Run(() => consumer.Consume(stoppingToken));
 
                     if (consumeResult.IsPartitionEOF) continue;
 
                     try
                     {
                         var options = new JsonSerializerOptions { Converters = { new EventJsonMapper() } };
-                        var @event = JsonSerializer.Deserialize<BaseConsumerEvent>(consumeResult.Message.Value, options);
+                        var @event = JsonSerializer.Deserialize<IConsumerEvent>(consumeResult.Message.Value, options);
 
                         if (@event is null)
+                        {
                             throw new Exception($"Error deserializing consumer event from topic {consumeResult.Topic}");
+                        }
 
-                        var handlerType = typeof(IConsumerEventHandler<>).MakeGenericType(@event.GetType());
-                        var handler = Activator.CreateInstance(handlerType);
-                        var method = handlerType.GetMethod("Handle");
+                        if (@event is IgnoreConsumerEvent) continue;
 
-                        if (method is null)
-                            throw new Exception($"Error getting method Handle from consumer event handler {handlerType.Name}");
+                        await _publisher.Publish(@event, stoppingToken);
 
-                        method.Invoke(handler, new object[] { @event, () => consumer.Commit(consumeResult) });
+                        consumer.Commit(consumeResult);
                     }
                     catch (Exception e)
                     {
-                        Log.Error("Error consuming message: {@e}", e.Message);
+                        Log.Error("Error consuming message: {@e}", e);
                     }
                 }
             }
@@ -59,10 +61,11 @@ namespace UserService.Shared.Infrastructure.Bus.Consumer
             }
             catch (Exception e)
             {
-                Log.Error("Error consuming message: {@e}", e.Message);
+                Log.Error("Error consuming message: {@e}", e);
             }
             finally
             {
+                Log.Information("Consumer closing");
                 consumer.Close();
             }
         }

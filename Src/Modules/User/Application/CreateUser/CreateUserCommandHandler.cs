@@ -11,6 +11,7 @@ namespace UserService.Modules.User.Application.CreateUser
     {
         private readonly IUserWriteRepository _userWriteRepository;
         private readonly IUserReadRepository _userReadRepository;
+
         public CreateUserCommandHandler(
             IUserWriteRepository userRepository,
             IUserReadRepository userReadRepository
@@ -42,7 +43,6 @@ namespace UserService.Modules.User.Application.CreateUser
             var user = User.Create(null, email, name, userName);
 
             await _userWriteRepository.Create(user);
-
 
             return Unit.Default;
         }
