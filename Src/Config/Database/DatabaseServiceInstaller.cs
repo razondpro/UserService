@@ -11,7 +11,6 @@ namespace UserService.Config.Database
         {
             services.AddDatabase();
             services.AddSingleton<UpdateAuditableEntitiesInterceptor>();
-            services.AddSingleton<UpdateVersionedEntitiesInterceptor>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IUserReadRepository, UserReadRepository>();
             services.AddScoped<IUserWriteRepository, UserWriteRepository>();

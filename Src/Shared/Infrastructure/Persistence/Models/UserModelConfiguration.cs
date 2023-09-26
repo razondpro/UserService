@@ -58,11 +58,6 @@ namespace UserService.Shared.Infrastructure.Persistence.Configurations
 
             builder.Property(user => user.LastModifiedOn)
                 .HasColumnName("last_modified_on");
-
-            builder.Property(user => user.Version)
-                .HasColumnName("version")
-                .IsConcurrencyToken()
-                .IsRequired();
         }
     }
 }

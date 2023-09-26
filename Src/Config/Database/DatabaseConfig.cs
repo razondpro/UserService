@@ -25,9 +25,6 @@ namespace UserService.Config.Database
                 var updateAuditableEntitiesInterceptor = provider.GetRequiredService<UpdateAuditableEntitiesInterceptor>();
                 options.AddInterceptors(updateAuditableEntitiesInterceptor);
 
-                var updateVersionedEntitiesInterceptor = provider.GetRequiredService<UpdateVersionedEntitiesInterceptor>();
-                options.AddInterceptors(updateVersionedEntitiesInterceptor);
-
             });
 
             return services;
