@@ -1,6 +1,7 @@
 namespace UserService.Modules.User.Infrastructure.Persistence.Repositories.Implementations
 {
     using UserService.Modules.User.Domain.Repositories;
+    using UserService.Modules.User.Domain.Entities;
     using UserService.Shared.Infrastructure.Persistence;
 
     public class UserWriteRepository : IUserWriteRepository
@@ -12,19 +13,20 @@ namespace UserService.Modules.User.Infrastructure.Persistence.Repositories.Imple
         {
             DbContext = database;
         }
-        public async Task Create(Domain.Entities.User user)
+        public async Task Create(User user)
         {
             await DbContext.Users.AddAsync(user);
         }
 
-        public Task Delete(Domain.Entities.User user)
+        public Task Delete(User user)
         {
             throw new NotImplementedException();
         }
 
-        public Task Update(Domain.Entities.User user)
+        public Task Update(User user)
         {
-            throw new NotImplementedException();
+            DbContext.Users.Update(user);
+            return Task.CompletedTask;
         }
     }
 

@@ -9,17 +9,55 @@ namespace UserService.Modules.User.Domain.ValueObjects
         public static readonly int MaxLength = 50;
         public static readonly int MinLength = 2;
         public static readonly Regex NameRegex = new(@"^[a-zA-ZñÑáéíóúÁÉÍÓÚ]+$", RegexOptions.Compiled);
-        public string FirstName { get; init; }
-        public string LastName { get; init; }
+        public string FirstName { get; private set; }
+        public string LastName { get; private set; }
         private Name(string firstName, string lastName)
         {
             FirstName = firstName;
-            LastName = lastName ?? string.Empty;
+            LastName = lastName;
         }
 
         public static Name Create(string firstName, string lastName)
         {
 
+            ValidateFirstName(firstName);
+            ValidateLastName(lastName);
+
+            return new(firstName, lastName);
+        }
+
+        public void UpdateFirstName(string firstName)
+        {
+            ValidateFirstName(firstName);
+            FirstName = firstName;
+        }
+
+        public void UpdateLastName(string lastName)
+        {
+            ValidateLastName(lastName);
+            LastName = lastName;
+        }
+
+        private static void ValidateLastName(string lastName)
+        {
+            if (string.IsNullOrWhiteSpace(lastName))
+            {
+                throw new InvalidNameException("Last name is required");
+            }
+
+            if (lastName.Length < MinLength || lastName.Length > MaxLength)
+            {
+                throw new InvalidNameException($"Name must be between {MinLength} and {MaxLength} characters long");
+            }
+
+            if (!NameRegex.IsMatch(lastName))
+            {
+                throw new InvalidNameException("Name must contain only letters");
+            }
+        }
+
+        private static void ValidateFirstName(string firstName)
+        {
             if (string.IsNullOrWhiteSpace(firstName))
             {
                 throw new InvalidNameException("First name is required");
@@ -34,23 +72,6 @@ namespace UserService.Modules.User.Domain.ValueObjects
             {
                 throw new InvalidNameException("Name must contain only letters");
             }
-
-            if (string.IsNullOrWhiteSpace(lastName))
-            {
-                throw new InvalidNameException("Last name is required");
-            }
-
-            if (lastName.Length < MinLength || lastName.Length > MaxLength)
-            {
-                throw new InvalidNameException($"Last name must be between {MinLength} and {MaxLength} characters long");
-            }
-
-            if (!NameRegex.IsMatch(lastName))
-            {
-                throw new InvalidNameException("Last name must contain only letters");
-            }
-
-            return new(firstName, lastName);
         }
         protected override IEnumerable<object> GetAtomicValues()
         {
