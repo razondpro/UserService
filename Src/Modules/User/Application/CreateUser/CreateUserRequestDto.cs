@@ -1,6 +1,6 @@
 namespace UserService.Modules.User.Application.CreateUser
 {
-    public record CreateUserRequestDto(
+    public sealed record CreateUserRequestDto(
         string FirstName,
         string LastName,
         string Email,

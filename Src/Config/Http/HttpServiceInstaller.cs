@@ -1,5 +1,6 @@
 using UserService.Modules.User.Application.CreateUser;
 using UserService.Modules.User.Application.FindUserByEmail;
+using UserService.Modules.User.Application.UpdateUser;
 
 namespace UserService.Config.Http
 {
@@ -9,6 +10,7 @@ namespace UserService.Config.Http
         {
             services.AddHttpContextAccessor();
             services.AddScoped<CreateUserHttpController>();
+            services.AddScoped<UpdateUserHttpController>();
             services.AddScoped<FindUserByEmailHttpController>();
         }
     }

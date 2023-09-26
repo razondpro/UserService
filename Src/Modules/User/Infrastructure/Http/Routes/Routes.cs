@@ -1,13 +1,14 @@
 namespace UserService.Modules.User.Infrastructure.Http.Routes
 {
+    using Microsoft.AspNetCore.Mvc;
     using UserService.Modules.User.Application.CreateUser;
     using UserService.Modules.User.Application.FindUserByEmail;
+    using UserService.Modules.User.Application.UpdateUser;
     using UserService.Modules.User.Infrastructure.Http.Filters;
     using UserService.Shared.Infrastructure.Http.Core;
 
     public static class UserRouteExtensions
     {
-
         public static RouteGroupBuilder MapUserRoutes(this RouteGroupBuilder builder)
         {
 
@@ -21,6 +22,18 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
             .AddEndpointFilter<ValidationFilter<CreateUserRequestDto>>()
             .WithName("CreateUser")
             .WithDescription("Create a new user")
+            .Produces<ApiHttpResponse>(StatusCodes.Status400BadRequest);
+
+            builder.MapPut("/", async (
+                CancellationToken cancellationToken,
+                UpdateUserHttpController controller,
+                [FromBody] UpdateUserRequestDto req) =>
+            {
+                return await controller.Execute(req, cancellationToken);
+            })
+            .AddEndpointFilter<ValidationFilter<UpdateUserRequestDto>>()
+            .WithName("UpdateUser")
+            .WithDescription("Update an user")
             .Produces<ApiHttpResponse>(StatusCodes.Status400BadRequest);
 
 

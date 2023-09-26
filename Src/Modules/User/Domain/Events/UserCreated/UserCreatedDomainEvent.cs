@@ -3,7 +3,7 @@ namespace UserService.Modules.User.Domain.Events.UserCreated
     using Shared.Domain;
     using UserService.Shared.Domain.Events;
 
-    public record UserCreatedDomainEvent(
+    public sealed record UserCreatedDomainEvent(
         UniqueIdentity AggregateId,
         string Email,
         string UserName

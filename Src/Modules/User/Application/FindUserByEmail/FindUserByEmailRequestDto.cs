@@ -2,5 +2,5 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UserService.Modules.User.Application.FindUserByEmail
 {
-    public record FindUserByEmailRequestDto([FromRoute(Name = "email")] string Email);
+    public sealed record FindUserByEmailRequestDto([FromRoute(Name = "email")] string Email);
 }

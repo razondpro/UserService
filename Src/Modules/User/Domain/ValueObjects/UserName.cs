@@ -21,17 +21,17 @@ namespace UserService.Modules.User.Domain.ValueObjects
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new InvalidUserNameException("User name is required");
+                throw new InvalidUserNameException("Username is required");
             }
 
             if (value.Length < MinLength || value.Length > MaxLength)
             {
-                throw new InvalidUserNameException($"User name must be between {MinLength} and {MaxLength} characters long");
+                throw new InvalidUserNameException($"Username must be between {MinLength} and {MaxLength} characters long");
             }
 
             if (!UserNameRegex.IsMatch(value))
             {
-                throw new InvalidUserNameException("User name must contain only letters and numbers");
+                throw new InvalidUserNameException("Username must contain only letters and numbers");
             }
 
             return new UserName(value);
