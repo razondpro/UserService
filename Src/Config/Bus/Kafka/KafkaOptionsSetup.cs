@@ -1,11 +1,11 @@
 using Microsoft.Extensions.Options;
-using Serilog;
+using UserService.Config.Bus.Kafka;
 
 namespace UserService.Config.Bus
 {
-    public class BusOptionsSetup : IConfigureOptions<BusOptions>
+    public class BusOptionsSetup : IConfigureOptions<KafkaOptions>
     {
-        private const string ConfigurationSectionName = "BusOptions";
+        public const string ConfigurationSectionName = "KafkaOptions";
 
         private readonly IConfiguration _configuration;
 
@@ -13,7 +13,7 @@ namespace UserService.Config.Bus
         {
             _configuration = configuration;
         }
-        public void Configure(BusOptions options)
+        public void Configure(KafkaOptions options)
         {
             _configuration.GetSection(ConfigurationSectionName).Bind(options);
         }

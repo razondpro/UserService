@@ -1,0 +1,18 @@
+{
+    "doc": "A user was created",
+    "name": "UserCreated",
+    "namespace": "Events.Users",
+    "type": "record",
+    "fields": [
+      {
+        "doc": "The int type is a 32-bit signed integer.",
+        "name": "Email",
+        "type": "string"
+      },
+      {
+        "doc": "The double type is a double precision (64-bit) IEEE 754 floating-point number.",
+        "name": "UserName",
+        "type": "string"
+      }
+    ]
+  }

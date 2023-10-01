@@ -22,8 +22,8 @@ namespace UserService.Shared.Infrastructure.Http
             configureGlobalErrorHandling();
 
             ConfigureAppLifetimeEvents();
-        }
 
+        }
         private void ConfigureAppLifetimeEvents()
         {
             _app.Services.GetRequiredService<IHostApplicationLifetime>()
@@ -32,7 +32,7 @@ namespace UserService.Shared.Infrastructure.Http
         public void OnApplicationStopping()
         {
             Log.Information("Stopping application");
-            //TODO: add logic to stop application
+            //TODO: add logic to stop services like database, kafka etc
         }
 
         private void ConfigureAuthentication()
