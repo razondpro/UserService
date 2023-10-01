@@ -65,7 +65,7 @@ namespace UserService.Shared.Infrastructure.Jobs.OutboxMessageProcessing
                 catch (Exception exception)
                 {
                     Log.Error(exception.Message);
-                    message.Error = exception.Message;
+                    message.Error = exception.ToString();
                 }
                 finally
                 {

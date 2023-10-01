@@ -7,15 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Apache.Avro" Version="1.11.3" />
     <PackageReference Include="Asp.Versioning.Http" Version="7.0.0" />
     <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.0.0" />
-    <PackageReference Include="Confluent.Kafka" Version="2.2.0" />
+    <PackageReference Include="Confluent.SchemaRegistry.Serdes.Avro" Version="2.2.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="FluentValidation" Version="11.7.1" />
+    <PackageReference Include="KafkaFlow" Version="2.4.1" />
+    <PackageReference Include="KafkaFlow.Extensions.Hosting" Version="2.4.1" />
+    <PackageReference Include="KafkaFlow.LogHandler.Console" Version="2.4.1" />
+    <PackageReference Include="KafkaFlow.Microsoft.DependencyInjection" Version="2.4.1" />
+    <PackageReference Include="KafkaFlow.Serializer" Version="2.4.1" />
+    <PackageReference Include="KafkaFlow.Serializer.SchemaRegistry.ConfluentAvro" Version="2.4.1" />
+    <PackageReference Include="KafkaFlow.TypedHandler" Version="2.4.1" />
     <PackageReference Include="LanguageExt.Core" Version="4.4.5" />
     <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
