@@ -1,15 +1,12 @@
-namespace UserService.Shared.Infrastructure.Http.Routes
+using Asp.Versioning;
+
+namespace UserService.Config.Http
 {
-    using Asp.Versioning;
-
-    public static class VersioningExtensions
+    public class HttpVersioningServiceInstaller : IServiceInstaller
     {
-        public const int V1 = 1;
-        public const int V2 = 2;
-
-        public static WebApplicationBuilder ConfigureVersioning(this WebApplicationBuilder builder)
+        public void Install(IServiceCollection services, IConfiguration configuration)
         {
-            builder.Services.AddApiVersioning(
+            services.AddApiVersioning(
                 options =>
                 {
                     // reporting api versions will return the headers
@@ -34,8 +31,6 @@ namespace UserService.Shared.Infrastructure.Http.Routes
                         options.SubstituteApiVersionInUrl = true;
                     }
                 );
-
-            return builder;
         }
     }
 }

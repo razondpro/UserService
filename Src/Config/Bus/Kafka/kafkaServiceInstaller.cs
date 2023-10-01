@@ -3,6 +3,7 @@ using Confluent.SchemaRegistry.Serdes;
 using KafkaFlow;
 using KafkaFlow.TypedHandler;
 using UserService.Shared.Infrastructure.Bus.Kafka.Consumer.Handlers;
+using UserService.Shared.Infrastructure.Bus.Kafka.Logs;
 using UserService.Shared.Infrastructure.Bus.Kafka.Producer;
 
 namespace UserService.Config.Bus.Kafka
@@ -20,7 +21,7 @@ namespace UserService.Config.Bus.Kafka
 
             services.AddKafkaFlowHostedService(configuration =>
             {
-                configuration.UseConsoleLog();
+                configuration.UseLogHandler<CustomLogHandler>();
                 configuration.AddCluster(cluster =>
                 {
                     cluster.WithBrokers(kafkaOptionss.BootstrapServers);
