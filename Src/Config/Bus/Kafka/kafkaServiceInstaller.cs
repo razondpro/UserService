@@ -26,7 +26,6 @@ namespace UserService.Config.Bus.Kafka
                 {
                     cluster.WithBrokers(kafkaOptionss.BootstrapServers);
                     cluster.WithSchemaRegistry(config => config.Url = kafkaOptionss.SchemaRegistryUrl);
-                    cluster.CreateTopicIfNotExists(usersTopic, 1, 1);
 
                     cluster.AddConsumer(consumer =>
                     {
@@ -45,7 +44,6 @@ namespace UserService.Config.Bus.Kafka
                                 .AddHandler<UserCreatedConsumerEventHandler>()
                             )
                         );
-
                     });
 
                     cluster.AddProducer<KafkaProducer>(producer =>

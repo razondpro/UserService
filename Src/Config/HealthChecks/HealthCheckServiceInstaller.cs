@@ -14,7 +14,8 @@ namespace UserService.Config.HealthChecks
                 {
                     var databaseOptions = provider.GetRequiredService<IOptions<DatabaseOptions>>().Value;
                     return databaseOptions.ConnectionString;
-                });
+                })
+                .AddKafkaHealthCheck();
             //TODO Add more health checks here
         }
     }
