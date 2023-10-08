@@ -14,8 +14,6 @@ It's important to emphasize that the guidance provided here is not intended as s
 - [Installation](#installation)
 - [Configuration](#configuration)
 - [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
