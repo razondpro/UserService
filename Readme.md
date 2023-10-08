@@ -1,6 +1,10 @@
 # UserService Microservice
 
-UserService is a microservice built using C# .NET Minimal API, following the Clean Architecture and Domain-Driven Design (DDD) principles. It integrates Kafka for event handling and Postgressql as the database.
+The core focus of this project is to offer guidance on the principles of software application design. This encompasses a compilation of techniques, tools, best practices, architectural patterns, and guidelines sourced from various references.
+
+The patterns and principles outlined here are independent of any specific programming language or framework. Therefore, these recommendations can be applied universally, regardless of the technologies chosen for implementation.
+
+It's important to emphasize that the guidance provided here is not intended as strict rules, but rather as a set of recommendations. Different projects have distinct requirements, and the application of these patterns should be tailored to meet the unique needs of each project. In real-world production applications, only a subset of these patterns may be necessary, depending on specific use cases. For more details, please refer to the subsequent section.
 
 ## Table of Contents
 
@@ -15,23 +19,29 @@ UserService is a microservice built using C# .NET Minimal API, following the Cle
 
 ## Introduction
 
-UserService is a microservice that handles user-related operations. It is built with C# .NET Minimal API, adopting the Clean Architecture and Domain-Driven Design (DDD) patterns to ensure a modular, maintainable, and scalable codebase. The service also leverages Kafka for event-driven communication and PSQL for data storage.
+This project serves as a versatile starting point for developers, offering a well-structured and modular codebase that adheres to best practices and industry-standard architectural patterns.
+
+UserService is built using C# .NET Minimal API, and it embraces the principles of Clean Architecture and Domain-Driven Design (DDD). By adopting these patterns, the project ensures that your code remains maintainable and scalable, regardless of the size and complexity of your application.
+
+In addition, UserService leverages Kafka, a powerful event streaming platform, for event-driven communication between components of your application. This asynchronous approach enhances responsiveness and flexibility, providing developers with the tools they need to create, maintain, and scale applications with ease.
+
+Whether you're embarking on a small-scale project or tackling a large enterprise application, UserService is your trusted companion for user operations. It offers an open-source, solid, and well-structured template for your software development endeavors, ensuring you start with a strong foundation for your unique project."
 
 ## Features
 
-- Create, update, and manage user profiles
-- Event-driven architecture using Kafka for real-time updates
-- PSQL integration for data storage and retrieval
-- Clean and modular codebase following DDD principles
-- Efficient and lightweight with C# .NET Minimal API
+- Create, update user profiles using Minimal API with proper validation and error handling
+- Domain Events with Outbox Pattern: Implements domain events using the Outbox Pattern, ensuring reliable and idempotent event processing. This pattern ensures that events are processed exactly once, even if there are network issues or failures, preventing duplicate events and maintaining data integrity.
+- Asynchronous Event Communication: Utilizes Kafka for asynchronous event-driven communication with other microservices, allowing real-time updates and seamless integration between components of the application.
+- Reliable Data Handling with EF Core: Integrates PostgreSQL (PSQL) with Entity Framework Core (EF Core) to ensure secure, responsive, and efficient data storage and retrieval.
+- Modular Codebase: Follows Clean Architecture principles, resulting in a well-structured, modular codebase that enhances code maintainability and scalability.
+- Efficiency with Minimal API: Developed using C# .NET Minimal API to provide an efficient and lightweight solution, promoting speed and code conciseness.
 
 ## Requirements
 
 To run this microservice, you'll need the following tools and technologies:
 
+- Docker
 - .NET SDK (version 7.0)
-- Kafka (version XYZ)
-- PSQL (version 15.3)
 
 ## Installation
 
@@ -49,13 +59,20 @@ To run this microservice, you'll need the following tools and technologies:
     dotnet build
 ```
 
+3. Docker Compose
+
+```bash
+    docker-compose up -d
+```
+
 ## Configuration
 
-1. Configure Kafka:
-   Update the Kafka settings in appsettings.json to match your Kafka broker configuration.
+1. Migrations
 
-2. Configure PSQL:
-   Update the PSQL connection string in appsettings.json to point to your PSQL instance.
+```bash
+    dotnet ef migrations add InitialCreate
+    dotnet ef database update
+```
 
 ## Usage
 
@@ -65,24 +82,4 @@ To run this microservice, you'll need the following tools and technologies:
     dotnet run
 ```
 
-2. Access the API at http://localhost:5000.
-
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to UserService, follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature/bugfix.
-3. Make your changes and write tests if needed.
-4. Ensure all tests pass:
-
-```bash
-
-   dotnet test
-```
-
-5. Create a pull request.
-
-## License
-
-This project is licensed under the XYZ License. See the LICENSE file for details.
+2. Access the API at http://localhost:5290/swagger/index.html
