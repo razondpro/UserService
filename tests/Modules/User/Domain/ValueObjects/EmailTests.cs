@@ -2,6 +2,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
 {
     using UserService.Modules.User.Domain.Exceptions;
     using UserService.Modules.User.Domain.ValueObjects;
+    using FluentAssertions;
     using Xunit;
     public class EmailTests
     {
@@ -10,8 +11,9 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             string validEmail = "test@example.com";
             var email = Email.Create(validEmail);
-            Assert.NotNull(email);
-            Assert.Equal(validEmail, email.Value);
+            email.Should().NotBeNull();
+            email.Should().BeOfType<Email>();
+            email.Value.Should().Be(validEmail);
         }
 
         [Theory]
@@ -21,7 +23,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         public void Create_NullOrEmptyEmail_ThrowsInvalidEmailException(string email)
         {
             var ex = Assert.Throws<InvalidEmailException>(() => Email.Create(email));
-            Assert.Equal("Email is required", ex.Message);
+            ex.Message.Should().Be("Email is required");
         }
 
         [Theory]
@@ -32,16 +34,16 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         public void Create_InvalidEmail_ThrowsInvalidEmailException(string invalidEmail)
         {
             var ex = Assert.Throws<InvalidEmailException>(() => Email.Create(invalidEmail));
-            Assert.Equal("Email is invalid", ex.Message);
+            ex.Message.Should().Be("Email is invalid");
         }
 
         [Theory]
-        [InlineData($"i@iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii.i")]
+        [InlineData($"abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz@example.com")]
         public void Create_InValidEmailWithInvalidLength_ThrowsInvalidEmailException(string invalidEmail)
         {
 
             var ex = Assert.Throws<InvalidEmailException>(() => Email.Create(invalidEmail));
-            Assert.Equal($"Email must be less than {Email.MaxLength} characters long", ex.Message);
+            ex.Message.Should().Be($"Email must be less than {Email.MaxLength} characters long");
         }
     }
 }

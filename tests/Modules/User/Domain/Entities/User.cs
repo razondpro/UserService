@@ -3,46 +3,57 @@ namespace UserService.Tests.Modules.User.Domain.Entities
     using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.ValueObjects;
     using Shared.Domain;
+    using FluentAssertions;
     using Xunit;
-    using Moq;
-    using Modules.User.Domain.Events;
+    using UserService.Shared.Domain.Events;
 
     public class UserTests
     {
 
         [Theory]
-        [ClassData(typeof(UserData))]
+        [ClassData(typeof(ExisitingUserData))]
         public void Create_ValidUser_ReturnsUserInstance(UniqueIdentity id, Email email, Name name, UserName userName)
         {
             var user = User.Create(id, email, name, userName);
 
-            Assert.NotNull(user);
-            Assert.Equal(email, user.Email);
-            Assert.Equal(name, user.Name);
-            // Assert.Equal(lastName, user.LastName);
-            Assert.Equal(userName, user.UserName);
+            user.Should().NotBeNull();
+            user.Should().BeOfType<User>();
+            user.Id.Value.Should().Be(id.Value);
+            user.Email.Value.Should().Be(email.Value);
+            user.Name.FirstName.Should().Be(name.FirstName);
+            user.Name.LastName.Should().Be(name.LastName);
+            user.UserName.Value.Should().Be(userName.Value);
         }
 
-        /*
-            Search how to mock static method to test this
+        [Theory]
+        [ClassData(typeof(NewUserData))]
+        public void Create_NewValidUser_WithDomainEvent(Email email, Name name, UserName userName)
+        {
+            var user = User.Create(null, email, name, userName);
 
-            [Theory]
-            [ClassData(typeof(UserData))]
-            public void Create_ValidUser_WithDomainEvent(UniqueIdentity id, Email email, FirstName firstName, LastName lastName, UserName userName)
-            {
-                var userMock = new Mock<User>(null, email, firstName, lastName, userName);
-                var user = userMock.Object;
+            var domainEvents = user.GetDomainEvents();
 
-                userMock.Verify(x => x.AddDomainEvent(It.IsAny<UserCreated>()), Times.Once);
+            domainEvents.Should().NotBeNull();
+            domainEvents.Should().NotBeEmpty();
+            domainEvents.Should().ContainSingle();
+        }
 
+        [Theory]
+        [ClassData(typeof(ExisitingUserData))]
+        public void Create_ExistingValidUser_WithoutDomainEvent(UniqueIdentity id, Email email, Name name, UserName userName)
+        {
+            var user = User.Create(id, email, name, userName);
 
-            }
-            */
+            var domainEvents = user.GetDomainEvents();
+
+            domainEvents.Should().NotBeNull();
+            domainEvents.Should().BeEmpty();
+        }
     }
 
-    public class UserData : TheoryData<UniqueIdentity, Email, Name, UserName>
+    public class ExisitingUserData : TheoryData<UniqueIdentity, Email, Name, UserName>
     {
-        public UserData()
+        public ExisitingUserData()
         {
             var email = Email.Create("example@thery.com");
             var name = Name.Create("John", "Doe");
@@ -51,7 +62,18 @@ namespace UserService.Tests.Modules.User.Domain.Entities
 
             Add(id, email, name, userName);
         }
+    }
 
+    public class NewUserData : TheoryData<Email, Name, UserName>
+    {
+        public NewUserData()
+        {
+            var email = Email.Create("example@thery.com");
+            var name = Name.Create("John", "Doe");
+            var userName = UserName.Create("johndoe");
+
+            Add(email, name, userName);
+        }
     }
 
 }

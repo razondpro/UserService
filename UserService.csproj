@@ -16,6 +16,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="FluentAssertions" Version="6.12.0" />
     <PackageReference Include="FluentValidation" Version="11.7.1" />
     <PackageReference Include="KafkaFlow" Version="2.4.1" />
     <PackageReference Include="KafkaFlow.Extensions.Hosting" Version="2.4.1" />
