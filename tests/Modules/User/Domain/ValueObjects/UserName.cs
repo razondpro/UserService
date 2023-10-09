@@ -23,7 +23,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_NullOrWhiteSpaceUserName_ThrowsInvalidUserNameException(string userName)
         {
             var ex = Assert.Throws<InvalidUserNameException>(() => UserName.Create(userName));
-            Assert.Equal("User name is required", ex.Message);
+            Assert.Equal("Username is required", ex.Message);
         }
 
         [Theory]
@@ -32,7 +32,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_InvalidLengthUserName_ThrowsInvalidUserNameException(string userName)
         {
             var ex = Assert.Throws<InvalidUserNameException>(() => UserName.Create(userName));
-            Assert.Equal($"User name must be between {UserName.MinLength} and {UserName.MaxLength} characters long", ex.Message);
+            Assert.Equal($"Username must be between {UserName.MinLength} and {UserName.MaxLength} characters long", ex.Message);
         }
 
         [Theory]
@@ -41,7 +41,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_InvalidCharactersInUserName_ThrowsInvalidUserNameException(string userName)
         {
             var ex = Assert.Throws<InvalidUserNameException>(() => UserName.Create(userName));
-            Assert.Equal("User name must contain only letters and numbers", ex.Message);
+            Assert.Equal("Username must contain only letters and numbers", ex.Message);
         }
     }
 }

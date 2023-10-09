@@ -7,7 +7,7 @@ namespace UserService.Modules.User.Domain.ValueObjects
     public sealed class Email : ValueObject
     {
         public static readonly Regex EmailRegex = new(@"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$", RegexOptions.Compiled);
-        public static readonly int MaxLength = 255;
+        public static readonly int MaxLength = 100;
         public string Value { get; init; }
         private Email(string email)
         {

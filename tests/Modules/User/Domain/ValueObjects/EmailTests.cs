@@ -36,7 +36,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         }
 
         [Theory]
-        [InlineData($"i@iiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii.i")]
+        [InlineData($"abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz@example.com")]
         public void Create_InValidEmailWithInvalidLength_ThrowsInvalidEmailException(string invalidEmail)
         {
 
