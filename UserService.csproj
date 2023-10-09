@@ -6,11 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'https' " />
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'http' " />
   <ItemGroup>
     <PackageReference Include="Apache.Avro" Version="1.11.3" />
-    <PackageReference Include="Asp.Versioning.Http" Version="7.0.0" />
-    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.0" />
-    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.0.0" />
+    <PackageReference Include="Asp.Versioning.Http" Version="7.1.0" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="7.0.1" />
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="7.1.0" />
     <PackageReference Include="Confluent.SchemaRegistry.Serdes.Avro" Version="2.2.0" />
     <PackageReference Include="coverlet.collector" Version="6.0.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,26 +26,26 @@
     <PackageReference Include="KafkaFlow.Serializer" Version="2.4.1" />
     <PackageReference Include="KafkaFlow.Serializer.SchemaRegistry.ConfluentAvro" Version="2.4.1" />
     <PackageReference Include="KafkaFlow.TypedHandler" Version="2.4.1" />
-    <PackageReference Include="LanguageExt.Core" Version="4.4.5" />
+    <PackageReference Include="LanguageExt.Core" Version="4.4.6" />
     <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
-    <PackageReference Include="Moq" Version="4.18.4" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
-    <PackageReference Include="Polly" Version="7.2.4" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
+    <PackageReference Include="Moq" Version="4.20.69" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11" />
+    <PackageReference Include="Polly" Version="8.0.0" />
     <PackageReference Include="Quartz" Version="3.7.0" />
     <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.7.0" />
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.7.0" />
     <PackageReference Include="Scrutor" Version="4.2.2" />
     <PackageReference Include="Serilog" Version="3.0.1" />
     <PackageReference Include="Serilog.AspNetCore" Version="7.0.0" />
-    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
     <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
     <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
     <PackageReference Include="Serilog.Extensions.Hosting" Version="7.0.0" />
@@ -51,8 +53,8 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageReference Include="xunit" Version="2.5.0" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
+    <PackageReference Include="xunit" Version="2.5.1" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.1">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
