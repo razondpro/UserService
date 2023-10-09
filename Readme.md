@@ -71,6 +71,9 @@ To run this microservice, you'll need the following tools and technologies:
     dotnet ef migrations add InitialCreate
     dotnet ef database update
 ```
+2. Create a kafka Topic
+   2.1 Visit: http://localhost:9021
+   2.2 Select Cluster -> Topics -> Create a topic "users" with defaults
 
 ## Usage
 
