@@ -2,6 +2,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
 {
     using UserService.Modules.User.Domain.Exceptions;
     using UserService.Modules.User.Domain.ValueObjects;
+    using FluentAssertions;
     using Xunit;
 
     public class UserNameTests
@@ -12,8 +13,9 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_ValidUserName_ReturnsUserNameInstance(string userName)
         {
             var result = UserName.Create(userName);
-            Assert.NotNull(result);
-            Assert.Equal(userName, result.Value);
+            result.Should().NotBeNull();
+            result.Value.Should().Be(userName);
+            result.Should().BeOfType<UserName>();
         }
 
         [Theory]
@@ -23,7 +25,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_NullOrWhiteSpaceUserName_ThrowsInvalidUserNameException(string userName)
         {
             var ex = Assert.Throws<InvalidUserNameException>(() => UserName.Create(userName));
-            Assert.Equal("Username is required", ex.Message);
+            ex.Message.Should().Be("Username is required");
         }
 
         [Theory]
@@ -32,7 +34,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_InvalidLengthUserName_ThrowsInvalidUserNameException(string userName)
         {
             var ex = Assert.Throws<InvalidUserNameException>(() => UserName.Create(userName));
-            Assert.Equal($"Username must be between {UserName.MinLength} and {UserName.MaxLength} characters long", ex.Message);
+            ex.Message.Should().Be($"Username must be between {UserName.MinLength} and {UserName.MaxLength} characters long");
         }
 
         [Theory]
@@ -41,7 +43,7 @@ namespace UserService.Tests.Modules.User.Domain.Events
         public void Create_InvalidCharactersInUserName_ThrowsInvalidUserNameException(string userName)
         {
             var ex = Assert.Throws<InvalidUserNameException>(() => UserName.Create(userName));
-            Assert.Equal("Username must contain only letters and numbers", ex.Message);
+            ex.Message.Should().Be("Username must contain only letters and numbers");
         }
     }
 }

@@ -3,7 +3,9 @@ namespace UserService.Tests.Modules.User.Domain.Entities
     using UserService.Modules.User.Domain.Entities;
     using UserService.Modules.User.Domain.ValueObjects;
     using Shared.Domain;
+    using FluentAssertions;
     using Xunit;
+    using UserService.Shared.Domain.Events;
 
     public class UserTests
     {
@@ -14,10 +16,13 @@ namespace UserService.Tests.Modules.User.Domain.Entities
         {
             var user = User.Create(id, email, name, userName);
 
-            Assert.NotNull(user);
-            Assert.Equal(email, user.Email);
-            Assert.Equal(name, user.Name);
-            Assert.Equal(userName, user.UserName);
+            user.Should().NotBeNull();
+            user.Should().BeOfType<User>();
+            user.Id.Value.Should().Be(id.Value);
+            user.Email.Value.Should().Be(email.Value);
+            user.Name.FirstName.Should().Be(name.FirstName);
+            user.Name.LastName.Should().Be(name.LastName);
+            user.UserName.Value.Should().Be(userName.Value);
         }
 
         [Theory]
@@ -28,8 +33,9 @@ namespace UserService.Tests.Modules.User.Domain.Entities
 
             var domainEvents = user.GetDomainEvents();
 
-            Assert.NotNull(domainEvents);
-            Assert.Single(domainEvents);
+            domainEvents.Should().NotBeNull();
+            domainEvents.Should().NotBeEmpty();
+            domainEvents.Should().ContainSingle();
         }
 
         [Theory]
@@ -40,8 +46,8 @@ namespace UserService.Tests.Modules.User.Domain.Entities
 
             var domainEvents = user.GetDomainEvents();
 
-            Assert.NotNull(domainEvents);
-            Assert.Empty(domainEvents);
+            domainEvents.Should().NotBeNull();
+            domainEvents.Should().BeEmpty();
         }
     }
 

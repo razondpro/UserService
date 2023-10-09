@@ -1,6 +1,7 @@
 using UserService.Modules.User.Domain.Exceptions;
 using UserService.Modules.User.Domain.ValueObjects;
 using Xunit;
+using FluentAssertions;
 
 namespace UserService.Tests.Modules.User.Domain.ValueObjects
 {
@@ -12,9 +13,10 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
             string validFirstName = "John";
             string validLastName = "Doe";
             var name = Name.Create(validFirstName, validLastName);
-            Assert.NotNull(name);
-            Assert.Equal(validFirstName, name.FirstName);
-            Assert.Equal(validLastName, name.LastName);
+            name.Should().NotBeNull();
+            name.Should().BeOfType<Name>();
+            name.FirstName.Should().Be(validFirstName);
+            name.LastName.Should().Be(validLastName);
         }
 
         [Theory]
@@ -24,7 +26,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         public void Create_NullOrEmptyNamePart_ThrowsInvalidNameException(string firstName, string lastName)
         {
             var ex = Assert.Throws<InvalidNameException>(() => Name.Create(firstName, lastName));
-            Assert.Equal("First name is required", ex.Message);
+            ex.Message.Should().Be("First name is required");
         }
 
         [Theory]
@@ -34,7 +36,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         public void Create_NullOrEmptyLastName_ThrowsInvalidNameException(string firstName, string lastName)
         {
             var ex = Assert.Throws<InvalidNameException>(() => Name.Create(firstName, lastName));
-            Assert.Equal("Last name is required", ex.Message);
+            ex.Message.Should().Be("Last name is required");
         }
 
         [Theory]
@@ -43,7 +45,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         public void Create_InvalidNameLengthOrFormat_ThrowsInvalidNameException(string firstName, string lastName)
         {
             var ex = Assert.Throws<InvalidNameException>(() => Name.Create(firstName, lastName));
-            Assert.Equal($"Name must be between {Name.MinLength} and {Name.MaxLength} characters long", ex.Message);
+            ex.Message.Should().Be($"Name must be between {Name.MinLength} and {Name.MaxLength} characters long");
         }
 
         [Theory]
@@ -52,7 +54,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         public void Create_InvalidNameFormat_ThrowsInvalidNameException(string firstName, string lastName)
         {
             var ex = Assert.Throws<InvalidNameException>(() => Name.Create(firstName, lastName));
-            Assert.Equal("Name must contain only letters", ex.Message);
+            ex.Message.Should().Be("Name must contain only letters");
         }
 
         [Fact]
@@ -60,7 +62,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             var name = Name.Create("John", "Doe");
             name.UpdateFirstName("Jane");
-            Assert.Equal("Jane", name.FirstName);
+            name.FirstName.Should().Be("Jane");
         }
 
         [Fact]
@@ -68,7 +70,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             var name = Name.Create("John", "Doe");
             name.UpdateLastName("Smith");
-            Assert.Equal("Smith", name.LastName);
+            name.LastName.Should().Be("Smith");
         }
 
         [Theory]
@@ -79,7 +81,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             var name = Name.Create("John", "Doe");
             var ex = Assert.Throws<InvalidNameException>(() => name.UpdateFirstName(firstName));
-            Assert.Equal("First name is required", ex.Message);
+            ex.Message.Should().Be("First name is required");
         }
 
         [Theory]
@@ -90,7 +92,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             var name = Name.Create("John", "Doe");
             var ex = Assert.Throws<InvalidNameException>(() => name.UpdateLastName(lastName));
-            Assert.Equal("Last name is required", ex.Message);
+            ex.Message.Should().Be("Last name is required");
         }
 
         [Theory]
@@ -120,7 +122,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             var name = Name.Create("John", "Doe");
             var ex = Assert.Throws<InvalidNameException>(() => name.UpdateFirstName(firstName));
-            Assert.Equal($"Name must be between {Name.MinLength} and {Name.MaxLength} characters long", ex.Message);
+            ex.Message.Should().Be($"Name must be between {Name.MinLength} and {Name.MaxLength} characters long");
         }
 
         [Theory]
@@ -130,7 +132,7 @@ namespace UserService.Tests.Modules.User.Domain.ValueObjects
         {
             var name = Name.Create("John", "Doe");
             var ex = Assert.Throws<InvalidNameException>(() => name.UpdateLastName(lastName));
-            Assert.Equal($"Name must be between {Name.MinLength} and {Name.MaxLength} characters long", ex.Message);
+            ex.Message.Should().Be($"Name must be between {Name.MinLength} and {Name.MaxLength} characters long");
         }
 
     }
