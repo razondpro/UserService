@@ -1,9 +1,8 @@
-
 using FluentValidation;
 using FluentValidation.Results;
 using Serilog;
 
-namespace UserService.Modules.User.Infrastructure.Http.Filters
+namespace UserService.Shared.Infrastructure.Http.Filters
 {
     public class ValidationFilter<T> : IEndpointFilter
     {

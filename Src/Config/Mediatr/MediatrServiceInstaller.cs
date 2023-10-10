@@ -3,8 +3,8 @@ namespace UserService.Config.Mediatr
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using UserService.Config;
-    using UserService.Modules.User.Application.Behaviors;
     using UserService.Shared.Infrastructure.Idempotence;
+    using UserService.Shared.Infrastructure.Persistence.Core.UnitOfWork.Behaviors;
 
     public class MediatrServiceInstaller : IServiceInstaller
     {

@@ -4,8 +4,8 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
     using UserService.Modules.User.Application.CreateUser;
     using UserService.Modules.User.Application.FindUserByEmail;
     using UserService.Modules.User.Application.UpdateUser;
-    using UserService.Modules.User.Infrastructure.Http.Filters;
     using UserService.Shared.Infrastructure.Http.Core;
+    using UserService.Shared.Infrastructure.Http.Filters;
 
     public static class UserRouteExtensions
     {
