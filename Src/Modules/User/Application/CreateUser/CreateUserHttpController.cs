@@ -6,7 +6,7 @@ using UserService.Shared.Infrastructure.Http.Core;
 namespace UserService.Modules.User.Application.CreateUser
 {
     public class CreateUserHttpController :
-        IHttpController<CreateUserRequestDto, Results<Created, Conflict<ApiHttpResponse>, StatusCodeHttpResult>>
+        IHttpController<CreateUserRequestDto, Results<Created, Conflict<ApiHttpErrorResponse>, StatusCodeHttpResult>>
     {
         private readonly IMediator _mediator;
         private readonly IHttpContextAccessor _httpContext;
@@ -17,7 +17,7 @@ namespace UserService.Modules.User.Application.CreateUser
             this._httpContext = httpContext;
         }
 
-        public async Task<Results<Created, Conflict<ApiHttpResponse>, StatusCodeHttpResult>> Execute(
+        public async Task<Results<Created, Conflict<ApiHttpErrorResponse>, StatusCodeHttpResult>> Execute(
              CreateUserRequestDto request,
              CancellationToken cancellationToken = default)
         {
@@ -29,19 +29,19 @@ namespace UserService.Modules.User.Application.CreateUser
                     request.UserName)
                 , cancellationToken);
 
-            return result.Match<Results<Created, Conflict<ApiHttpResponse>, StatusCodeHttpResult>>(
+            return result.Match<Results<Created, Conflict<ApiHttpErrorResponse>, StatusCodeHttpResult>>(
                 Right: _ => TypedResults.Created($"{_httpContext.HttpContext?.Request.Path}/{request.Email}"),
                 Left: error => error switch
                 {
                     EmailAlreadyExistsError => TypedResults.Conflict(
-                        new ApiHttpResponse(
+                        new ApiHttpErrorResponse(
                             "Conflict",
                             StatusCodes.Status409Conflict,
                             new List<ErrorDetail> { new("Email", "Email already exists") }
                             )
                         ),
                     UserNameAlreadyExistsError => TypedResults.Conflict(
-                        new ApiHttpResponse(
+                        new ApiHttpErrorResponse(
                             "Conflict",
                             StatusCodes.Status409Conflict,
                             new List<ErrorDetail> { new("UserName", "UserName already exists") }

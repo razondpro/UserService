@@ -22,7 +22,7 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
             .AddEndpointFilter<ValidationFilter<CreateUserRequestDto>>()
             .WithName("CreateUser")
             .WithDescription("Create a new user")
-            .Produces<ApiHttpResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ApiHttpErrorResponse>(StatusCodes.Status400BadRequest);
 
             builder.MapPut("/", async (
                 CancellationToken cancellationToken,
@@ -34,7 +34,7 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
             .AddEndpointFilter<ValidationFilter<UpdateUserRequestDto>>()
             .WithName("UpdateUser")
             .WithDescription("Update an user")
-            .Produces<ApiHttpResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ApiHttpErrorResponse>(StatusCodes.Status400BadRequest);
 
 
             builder.MapGet("/{email}", async (
@@ -48,7 +48,7 @@ namespace UserService.Modules.User.Infrastructure.Http.Routes
             .AddEndpointFilter<ValidationFilter<FindUserByEmailRequestDto>>()
             .WithName("GetUserByEmail")
             .WithDescription("Get user by email")
-            .Produces<ApiHttpResponse>(StatusCodes.Status400BadRequest);
+            .Produces<ApiHttpErrorResponse>(StatusCodes.Status400BadRequest);
 
             return builder;
         }

@@ -7,7 +7,7 @@ namespace UserService.Modules.User.Application.UpdateUser
 {
     public class UpdateUserHttpController : IHttpController<
         UpdateUserRequestDto,
-        Results<Ok, BadRequest<ApiHttpResponse>,
+        Results<Ok, BadRequest<ApiHttpErrorResponse>,
         StatusCodeHttpResult>>
     {
         private readonly IMediator _mediator;
@@ -16,7 +16,7 @@ namespace UserService.Modules.User.Application.UpdateUser
         {
             this._mediator = mediator;
         }
-        public async Task<Results<Ok, BadRequest<ApiHttpResponse>, StatusCodeHttpResult>> Execute(UpdateUserRequestDto request, CancellationToken cancellationToken = default)
+        public async Task<Results<Ok, BadRequest<ApiHttpErrorResponse>, StatusCodeHttpResult>> Execute(UpdateUserRequestDto request, CancellationToken cancellationToken = default)
         {
             var result = await _mediator.Send(new UpdateUserCommand(
                     request.UserName,
@@ -24,12 +24,12 @@ namespace UserService.Modules.User.Application.UpdateUser
                     request.LastName)
                 , cancellationToken);
 
-            return result.Match<Results<Ok, BadRequest<ApiHttpResponse>, StatusCodeHttpResult>>(
+            return result.Match<Results<Ok, BadRequest<ApiHttpErrorResponse>, StatusCodeHttpResult>>(
                 Right: _ => TypedResults.Ok(),
                 Left: error => error switch
                 {
                     UserNotFoundError => TypedResults.BadRequest(
-                        new ApiHttpResponse(
+                        new ApiHttpErrorResponse(
                             "BadRequest",
                             StatusCodes.Status400BadRequest,
                             new List<ErrorDetail> { new("UserName", "User not found") }

@@ -1,7 +1,6 @@
 namespace UserService.Shared.Infrastructure.Http.Middlewares
 {
     using System.Text.Json;
-    using Microsoft.AspNetCore.Mvc;
     using UserService.Shared.Infrastructure.Http.Core;
 
     public class JsonValidationMiddleware
@@ -35,7 +34,7 @@ namespace UserService.Shared.Infrastructure.Http.Middlewares
                     List<ErrorDetail> errors = new(){
                         new ErrorDetail("Body", "Request body is not valid JSON")
                     };
-                    var problem = new ApiHttpResponse("Bad Request", StatusCodes.Status400BadRequest, errors);
+                    var problem = new ApiHttpErrorResponse("Bad Request", StatusCodes.Status400BadRequest, errors);
 
                     context.Response.StatusCode = StatusCodes.Status400BadRequest;
 

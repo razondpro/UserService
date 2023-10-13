@@ -4,6 +4,5 @@ namespace UserService.Shared.Infrastructure.Http.Core
     {
         string Title { get; init; }
         int Status { get; init; }
-        List<ErrorDetail>? Errors { get; init; }
     }
 }

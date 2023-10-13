@@ -6,7 +6,6 @@ namespace UserService.Shared.Infrastructure.Http.Middlewares
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc;
     using Serilog;
     using UserService.Shared.Infrastructure.Http.Core;
 
@@ -28,7 +27,7 @@ namespace UserService.Shared.Infrastructure.Http.Middlewares
                             .Select(x => new ErrorDetail(x.PropertyName, x.ErrorMessage))
                             .ToList();
 
-                        ApiHttpResponse errResponse = new("Bad Request", (int)HttpStatusCode.BadRequest, errorDetails);
+                        ApiHttpErrorResponse errResponse = new("Bad Request", (int)HttpStatusCode.BadRequest, errorDetails);
 
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
 
