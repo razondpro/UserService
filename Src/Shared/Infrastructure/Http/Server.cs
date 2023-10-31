@@ -11,8 +11,6 @@ namespace UserService.Shared.Infrastructure.Http
         {
             _app = builder.Build();
 
-            ConfigureAuthentication();
-
             ConfigureMiddlewares();
 
             ConfigureRoutes();
@@ -33,12 +31,6 @@ namespace UserService.Shared.Infrastructure.Http
         {
             Log.Information("Stopping application");
             //TODO: add logic to stop services like database, kafka etc
-        }
-
-        private void ConfigureAuthentication()
-        {
-            _app.UseAuthentication();
-            _app.UseAuthorization();
         }
 
         private void ConfigureMiddlewares()
