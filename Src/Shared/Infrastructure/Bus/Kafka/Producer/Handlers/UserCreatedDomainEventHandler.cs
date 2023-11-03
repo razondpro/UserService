@@ -1,4 +1,4 @@
-namespace UserService.Shared.Infrastructure.Bus.Kafka.Handlers
+namespace UserService.Shared.Infrastructure.Bus.Kafka.Producer.Handlers
 {
     using Events.Users;
     using Serilog;
@@ -16,12 +16,13 @@ namespace UserService.Shared.Infrastructure.Bus.Kafka.Handlers
         public async Task Handle(UserCreatedDomainEvent notification, CancellationToken cancellationToken)
         {
             Log.Information("UserCreatedDomainEventHandler: {@notification}", notification);
-            var @event = new UserCreated
+            var message = new UserCreated
             {
                 Email = notification.Email,
                 UserName = notification.UserName
             };
-            await _kafkaProducer.ProduceAsync(@event);
+            //we use the aggregateId as the key for the message, so that all events for a given aggregate are sent to the same partition
+            await _kafkaProducer.ProduceAsync(notification.AggregateId.Value.ToString(), message);
         }
     }
 }

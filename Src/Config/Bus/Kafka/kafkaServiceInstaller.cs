@@ -8,7 +8,7 @@ using UserService.Shared.Infrastructure.Bus.Kafka.Producer;
 
 namespace UserService.Config.Bus.Kafka
 {
-    public class kafkaServiceInstaller : IServiceInstaller
+    public class KafkaServiceInstaller : IServiceInstaller
     {
         public void Install(IServiceCollection services, IConfiguration configuration)
         {

@@ -12,9 +12,9 @@ namespace UserService.Shared.Infrastructure.Bus.Kafka.Producer
             _producer = producer;
         }
 
-        public async Task ProduceAsync<T>(T @event) where T : ISpecificRecord
+        public async Task ProduceAsync<T>(string key, T message) where T : ISpecificRecord
         {
-            await _producer.ProduceAsync(null, @event);
+            await _producer.ProduceAsync(key, message);
         }
     }
 }
